@@ -1,10 +1,12 @@
 target/
+src/test/resources/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
 .kotlin
 
 out/
+
 
 ### IntelliJ IDEA ###
 .idea/modules.xml

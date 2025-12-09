@@ -452,11 +452,14 @@ public class EmergencyWLTest extends ClassBaseTest {
             Sign(ConfigReader.get("password_doctor"));
             WaitAMomentPlease();
 
-            CloseMPTab();
-            GotoMNPTab();
         } else {
             Reporter.log("⚠ El informe ya está firmado.");
+
         }
+
+        CloseMPTab();
+        GotoMNPTab();
+        GotoMNPTab();
 
     }
 
@@ -465,12 +468,14 @@ public class EmergencyWLTest extends ClassBaseTest {
         Logout();
         LoginAsNurse();
 
-        GotoMNPTab();
+        OpenEmergencyWL();
+
+
         if (IsPatientInEmergency()) {
             OpenActionMenu();
 
             WaitAMomentPlease();
-            WebElement liberarUrgencia = driver.findElement(By.id("attend_emergency"));
+            WebElement liberarUrgencia = driver.findElement(By.id("release_emergency"));
 
             if (liberarUrgencia.isEnabled()) {
                 liberarUrgencia.click();
@@ -590,10 +595,10 @@ public class EmergencyWLTest extends ClassBaseTest {
 
 
     public void TakeOffServerFilters() {
-        WebElement filtroWL = driver.findElement(By.id("filters-button-emergencyGridId"));
+        WebElement filtroWL = wait.until(ExpectedConditions.elementToBeClickable(By.id("filters-button-emergencyGridId")));
         filtroWL.click();
 
-        WebElement withoutFilter = driver.findElement(By.id("filter-not-filtered"));
+        WebElement withoutFilter = wait.until(ExpectedConditions.elementToBeClickable(By.id("filter-not-filtered")));
         withoutFilter.click();
 
 
