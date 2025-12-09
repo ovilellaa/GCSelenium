@@ -242,7 +242,7 @@ public abstract class ClassBaseTest {
             }
         }
 
-        return false; // si ninguno cumple, todo está deshabilitado
+        return false;
     }
 
     public void clearAndType(WebElement field, String text) {
