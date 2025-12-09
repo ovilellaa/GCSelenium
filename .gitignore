@@ -1,14 +1,15 @@
+# Maven y carpetas de build
 target/
-src/test/resources/
-!.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
-.kotlin
-
+build/
 out/
 
+# Excluir configuraciones locales de pruebas
+src/main/tests/resources/
 
-### IntelliJ IDEA ###
+# Maven Wrapper
+!.mvn/wrapper/maven-wrapper.jar
+
+# IntelliJ IDEA
 .idea/modules.xml
 .idea/jarRepositories.xml
 .idea/compiler.xml
@@ -17,7 +18,7 @@ out/
 *.iml
 *.ipr
 
-### Eclipse ###
+# Eclipse
 .apt_generated
 .classpath
 .factorypath
@@ -26,18 +27,18 @@ out/
 .springBeans
 .sts4-cache
 
-### NetBeans ###
+# NetBeans
 /nbproject/private/
 /nbbuild/
 /dist/
 /nbdist/
 /.nb-gradle/
-build/
-!**/src/main/**/build/
-!**/src/test/**/build/
 
-### VS Code ###
+# VS Code
 .vscode/
 
-### Mac OS ###
+# Mac OS
 .DS_Store
+
+# Kotlin (si aplica)
+.kotlin
