@@ -50,7 +50,7 @@ public class EmergencyWLTest extends ClassBaseTest {
                 WebElement cancelPatienFileButton = wait.until(ExpectedConditions.presenceOfElementLocated(By.id("cancel-PatientFileContainer-button")));
                 if (cancelPatienFileButton.isDisplayed())
                     cancelPatienFileButton.click();
-            } catch (NoSuchElementException e) {
+            } catch (TimeoutException e) {
             }
 
             WaitAMomentPlease();
@@ -91,13 +91,13 @@ public class EmergencyWLTest extends ClassBaseTest {
 
             WaitAMomentPlease();
 
-            //            try {
-            //                // Puedes ajustar el tiempo de espera si usas WebDriverWait
-            //                WebElement cancelButton = wait.until(ExpectedConditions.presenceOfElementLocated(By.id("alert-cancel")));
-            //                if (cancelButton.isDisplayed())
-            //                    cancelButton.click();
-            //            } catch (NoSuchElementException e) {
-            //            }
+            WebElement dialogoImprimirTicket = driver.findElement(By.id("mat-dialog-2"));
+            if (dialogoImprimirTicket.isDisplayed()) {
+                WebElement botonCancelar = driver.findElement(By.id("alert-cancel"));
+                botonCancelar.click();
+
+            }
+
 
         } else {
             Reporter.log("⚠ El paciente ya está en urgencias.");
@@ -292,9 +292,7 @@ public class EmergencyWLTest extends ClassBaseTest {
 
                 CloseMPTab();
                 GotoMNPTab();
-            }
-            else
-            {
+            } else {
                 Reporter.log("⚠ El paciente no puede ser atendido porque no está habilitada la opción. Revise permisos del usuario logado.");
             }
         }
@@ -427,7 +425,7 @@ public class EmergencyWLTest extends ClassBaseTest {
 
         WaitAMomentPlease();
 
-        WebElement informeAlta =wait.until(ExpectedConditions.presenceOfElementLocated(By.id("discharge_report-sidebar")));
+        WebElement informeAlta = wait.until(ExpectedConditions.presenceOfElementLocated(By.id("discharge_report-sidebar")));
         informeAlta.click();
 
         if (!IsDischargeReportSigned()) {
@@ -484,9 +482,7 @@ public class EmergencyWLTest extends ClassBaseTest {
                 aceptarLiberacion.click();
 
                 WaitAMomentPlease();
-            }
-            else
-            {
+            } else {
                 Reporter.log("⚠  La urgencia no puede ser liberada porque la opción está deshabilitada");
             }
         } else {
@@ -552,9 +548,7 @@ public class EmergencyWLTest extends ClassBaseTest {
             WaitAMomentPlease();
 
             return true;
-        }
-        else
-        {
+        } else {
             return false;
         }
     }
