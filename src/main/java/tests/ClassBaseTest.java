@@ -33,9 +33,9 @@ public abstract class ClassBaseTest {
         driver = new ChromeDriver();
 
         //Espera maxima para realizar cada paso
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(15));
 
-        wait = new WebDriverWait(driver, Duration.ofSeconds(20)); // espera como máximo 20 segundos
+        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
     }
 
@@ -57,6 +57,7 @@ public abstract class ClassBaseTest {
     public void setUpEnvironment() {
         String env = System.getProperty("env", "qa");
         System.out.println("Entorno seleccionado: " + env);
+
         ConfigReader.load(env);
     }
 
@@ -72,6 +73,13 @@ public abstract class ClassBaseTest {
         String password = ConfigReader.get("password_nurse");
         Login(username, password);
     }
+
+    public void LoginAsAdministrative() {
+        String username = ConfigReader.get("username_admin");
+        String password = ConfigReader.get("password_admin");
+        Login(username, password);
+    }
+
 
     public void Logout() {
         WebElement icon = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("mat-icon.user-profile-icon")));
@@ -98,23 +106,24 @@ public abstract class ClassBaseTest {
         loginPass.sendKeys(password);
 
         //Inicia sesión
-        WebElement loginButton = driver.findElement(By.xpath("//*[@id=\"login-button\"]/span[1]/div/span[1]"));
+        WebElement loginButton = driver.findElement(By.id("login-button"));
         loginButton.click();
 
         // Espera unos segundos para que se renderice el siguiente paso
         try {
-            // Espera a que aparezca el botón de selección de centro
-            WebElement selectCenter = wait.until(ExpectedConditions.elementToBeClickable(
-                    By.xpath("//*[@id=\"defaultButtonId\"]/span[1]/div/span[1]")));
+            WaitAMomentPlease();
+            List<WebElement> elements = driver.findElements(By.id("defaultButtonId"));
+            if (!elements.isEmpty()) {
+                elements.getFirst().click();
+            }
 
-            // WebElement selectCenter = driver.findElement(By.xpath("//*[@id=\"defaultButtonId\"]/span[1]/div/span[1]"));
+            // Espera a que aparezca el botón de selección de centro
+            //WebElement selectCenter = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"defaultButtonId\"]/span[1]/div/span[1]")));
 
             // Si está presente y visible, haz clic
-            if (selectCenter.isDisplayed()) {
-                selectCenter.click();
-            } else {
-                System.out.println("No se requiere selección de centro.");
-            }
+            // if (selectCenter.isDisplayed()) {
+            //    selectCenter.click();
+            //}
 
         } catch (TimeoutException e) {
 
@@ -147,20 +156,17 @@ public abstract class ClassBaseTest {
 
     }
 
-    public int TabOpenedCount()
-    {
+    public int TabOpenedCount() {
         return driver.getWindowHandles().size();
     }
 
-    public String GetLastTabOpened()
-    {
+    public String GetLastTabOpened() {
         List<String> tabs = new ArrayList<>(driver.getWindowHandles());
 
         return tabs.getLast();
     }
 
-    public void SwitchToTab(String tab)
-    {
+    public void SwitchToTab(String tab) {
         driver.switchTo().window(tab);
     }
 
@@ -176,12 +182,12 @@ public abstract class ClassBaseTest {
 
     }
 
-    public boolean IsMNPTabActive()
-    {
+    public boolean IsMNPTabActive() {
         String currentHandle = driver.getWindowHandle();
 
         return currentHandle.equals(MNP_Tab);
     }
+
     /// FIN TABS
 
 
@@ -190,20 +196,18 @@ public abstract class ClassBaseTest {
         backdrop.click();
     }
 
-    public boolean IsDischargeReportSigned()
-    {
+    public boolean IsDischargeReportSigned() {
         WebElement imgElement = driver.findElement(By.cssSelector("img.image.ng-star-inserted"));
         String srcValue = imgElement.getAttribute("src");
 
         return srcValue.contains("shield-check-valid.png");
     }
 
-    public void Sign(String password)
-    {
+    public void Sign(String password) {
         WebElement imgElement = driver.findElement(By.cssSelector("img.image.ng-star-inserted"));
         imgElement.click();
         WebElement passFirma = driver.findElement(By.id("password"));
-        passFirma.sendKeys( password);
+        passFirma.sendKeys(password);
 
         WebElement firmar = driver.findElement(By.id("sign-UserSignComponent-button"));
         firmar.click();
@@ -245,13 +249,30 @@ public abstract class ClassBaseTest {
         return false;
     }
 
-    public void clearAndType(WebElement field, String text) {
+    public void clearAndType(WebElement field, String text, boolean editorEnriquecido) {
         try {
-            field.clear();
+            if (editorEnriquecido) {
+
+                JavascriptExecutor js = (JavascriptExecutor) driver;
+                js.executeScript("arguments[0].innerHTML = '';", field);
+                field.sendKeys(text);
+            } else {
+                try {
+                    field.clear();
+                } catch (Exception e) {
+                    // fallback si clear falla
+                    field.sendKeys(Keys.chord(Keys.CONTROL, "a"), Keys.DELETE);
+                }
+                field.sendKeys(text);
+            }
         } catch (Exception e) {
-            // fallback si clear falla
-            field.sendKeys(Keys.chord(Keys.CONTROL, "a"), Keys.DELETE);
         }
-        field.sendKeys(text);
+    }
+
+
+    public void OpenNoContextualMNPActions() {
+        // abre las acciones del boton + del MNP
+        WebElement botonCrear = driver.findElement(By.id("add-action"));
+        botonCrear.click();
     }
 }

@@ -6,7 +6,7 @@ import static org.testng.Assert.assertEquals;
 
 
 public class UrlTest extends ClassBaseTest {
-
+    @Test
     public void openUrl() {
 
         GotoToUrl();

@@ -30,9 +30,7 @@ public class EmergencyWLTest extends ClassBaseTest {
 
         // comprobamos si el paciente está en urgencias antes de intentar crearle una hoja de urgencias
         if (!IsPatientInEmergency()) {
-            //Acceder a crear solicitud de urgencia
-            WebElement botonCrear = driver.findElement(By.id("add-action"));
-            botonCrear.click();
+            OpenNoContextualMNPActions();
 
             WebElement crearUrgencia = driver.findElement(By.id("create_emergency_sheet"));
             crearUrgencia.click();
@@ -319,7 +317,7 @@ public class EmergencyWLTest extends ClassBaseTest {
     }
 
 
-    @Test(priority = 10, dependsOnMethods = {"EnterEmergencyWL", "CreateEmergencySheet", "AttendEmergency",})
+    @Test(priority = 10, dependsOnMethods = {"EnterEmergencyWL", "CreateEmergencySheet"})
     public void CreateEmergencyAnamnesis() {
         if (IsMNPTabActive()) {
             if (IsPatientInEmergency()) {
@@ -330,42 +328,43 @@ public class EmergencyWLTest extends ClassBaseTest {
         WebElement moduloAnamnesis = driver.findElement(By.id("anamnesis-sidebar"));
         moduloAnamnesis.click();
 
-        By anamnesisForm = By.xpath("//gc-dynamic-anamnesis-grid//mat-form-field//input | " +
-                "//gc-dynamic-anamnesis-grid//mat-form-field//textarea | " +
-                "//gc-dynamic-anamnesis-grid//mat-form-field//mat-select");
+        By anamnesisForm = By.xpath(
+                "//gc-dynamic-anamnesis-grid//mat-form-field//input | " +
+                        "//gc-dynamic-anamnesis-grid//mat-form-field//textarea | " +
+                        "//gc-dynamic-anamnesis-grid//mat-form-field//mat-select | " +
+                        "//gc-dynamic-anamnesis-grid//mat-form-field//div[@contenteditable='true']"
+        );
 
         if (IsFormEnabled(anamnesisForm)) {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
             String fechaHora = LocalDateTime.now().format(formatter);
 
-            // Localizar todos los campos dentro del grid
+            // Localizar todos los campos dentro de formulario
             List<WebElement> fields = driver.findElements(anamnesisForm);
 
             int counter = 1;
             for (WebElement field : fields) {
                 String tag = field.getTagName();
+                String classes = field.getAttribute("class");
+                boolean isContentEditable = "true".equalsIgnoreCase(field.getAttribute("contenteditable"));
 
                 if ("textarea".equalsIgnoreCase(tag)) {
-                    clearAndType(field, "Texto de prueba " + counter);
+                    clearAndType(field, "Texto de prueba " + counter, isContentEditable);
                 } else if ("input".equalsIgnoreCase(tag)) {
-                    String classes = field.getAttribute("class");
                     boolean isMatDatepicker = (classes != null && classes.contains("mat-datepicker-input"));
+                    isContentEditable = (classes != null && classes.contains("angular-editor-textarea"));
                     if (isMatDatepicker) {
                         field.click();
                     } else {
-                        clearAndType(field, "Valor genérico " + counter);
+                        clearAndType(field, "Valor genérico " + counter, isContentEditable);
                     }
-                } else {
-                    // Caso desplegable (mat-select)
+                } else if (isContentEditable) { // Caso editor Angular con contenteditable
+                    clearAndType(field, "Texto editable " + counter, isContentEditable);
+                } else { // Caso desplegable (mat-select)
                     field.click();
-
                     By panel = By.cssSelector("div.mat-select-panel");
-                    // Esperar a que el panel del overlay esté visible
                     wait.until(ExpectedConditions.visibilityOfElementLocated(panel));
-
-                    WebElement primeraOpcion = wait.until(ExpectedConditions.elementToBeClickable(
-                            By.cssSelector("div.mat-select-panel mat-option:first-child")
-                    ));
+                    WebElement primeraOpcion = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("div.mat-select-panel mat-option:first-child")));
                     primeraOpcion.click();
                     wait.until(ExpectedConditions.invisibilityOfElementLocated(panel));
                 }
@@ -382,7 +381,7 @@ public class EmergencyWLTest extends ClassBaseTest {
         // CloseMPTab();
     }
 
-    @Test(priority = 11, dependsOnMethods = {"EnterEmergencyWL", "CreateEmergencySheet", "AttendEmergency", "CreateEmergencyAnamnesis"})
+    @Test(priority = 11, dependsOnMethods = {"EnterEmergencyWL", "CreateEmergencySheet", "CreateEmergencyAnamnesis"})
     public void CreateEmergencyEvolution() {
 
         if (IsMNPTabActive()) {
@@ -415,7 +414,7 @@ public class EmergencyWLTest extends ClassBaseTest {
     }
 
 
-    @Test(priority = 100, dependsOnMethods = {"EnterEmergencyWL", "CreateEmergencySheet", "AttendEmergency",})
+    @Test(priority = 100, dependsOnMethods = {"EnterEmergencyWL", "CreateEmergencySheet"})
     public void DichargeEmergency() {
         if (IsMNPTabActive()) {
             if (IsPatientInEmergency()) {
@@ -461,7 +460,7 @@ public class EmergencyWLTest extends ClassBaseTest {
 
     }
 
-    @Test(priority = 110, dependsOnMethods = {"EnterEmergencyWL", "CreateEmergencySheet", "AttendEmergency", "DichargeEmergency"})
+    @Test(priority = 110, dependsOnMethods = {"EnterEmergencyWL", "CreateEmergencySheet", "DichargeEmergency"})
     public void DischargeEmergencyFromWL() {
         Logout();
         LoginAsNurse();
@@ -532,8 +531,7 @@ public class EmergencyWLTest extends ClassBaseTest {
     // //////////////////////////////////////////////////////////////////////////////////////////////////////////
     public boolean OpenEmergencyWL() {
         //Acceder al módulo de Urgencias
-        WebElement moduloUrgencias = wait.until(ExpectedConditions.presenceOfElementLocated(
-                By.id("emergency-sidebar")));
+        WebElement moduloUrgencias = wait.until(ExpectedConditions.presenceOfElementLocated(By.id("emergency-sidebar")));
 
         if (moduloUrgencias.isDisplayed()) {
             moduloUrgencias.click();
@@ -598,7 +596,7 @@ public class EmergencyWLTest extends ClassBaseTest {
 
     }
 
-    public void OpenActionMenu() {
+    private void OpenActionMenu() {
         WebElement accionesUrgencias = wait.until(ExpectedConditions.elementToBeClickable(By.id("actions-button-emergencyGridId")));
         accionesUrgencias.click();
         WaitAMomentPlease();

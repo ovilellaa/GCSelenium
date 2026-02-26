@@ -1,11 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="All Test Suite">
+    <listeners>
+        <!-- Listener estándar de TestNG para el emailable-report -->
+        <listener class-name="org.testng.reporters.EmailableReporter2"/> <!-- Opcional: para el reporte HTML clásico -->
+        <listener class-name="org.testng.reporters.XMLReporter"/>
+    </listeners>
+
     <test verbose="2" name="Pruebas automatizadas GC Web">
         <classes>
-            <class name="tests.UrlTest"/>
+            <!--<class name="tests.UrlTest"/> -->
             <class name="tests.LoginTest"/>
-            <class name="tests.EmergencyWLTest"/>
+            <class name="tests.ModulesMNPTest"/>
+           <class name="tests.ModulesMPTest"/>
+            <!--<class name="tests.EmergencyWLTest"/> -->
+            <!-- <class name="tests.SurgeryWLTest"/> -->
+
         </classes>
     </test>
 </suite>
