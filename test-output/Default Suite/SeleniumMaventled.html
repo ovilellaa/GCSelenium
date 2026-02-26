@@ -1,0 +1,481 @@
+<html>
+<head>
+<title>TestNG:  SeleniumMaventled</title>
+<link href="../testng.css" rel="stylesheet" type="text/css" />
+<link href="../my-testng.css" rel="stylesheet" type="text/css" />
+
+<style type="text/css">
+.log { display: none;} 
+.stack-trace { display: none;} 
+</style>
+<script type="text/javascript">
+<!--
+function flip(e) {
+  current = e.style.display;
+  if (current == 'block') {
+    e.style.display = 'none';
+    return 0;
+  }
+  else {
+    e.style.display = 'block';
+    return 1;
+  }
+}
+
+function toggleBox(szDivId, elem, msg1, msg2)
+{
+  var res = -1;  if (document.getElementById) {
+    res = flip(document.getElementById(szDivId));
+  }
+  else if (document.all) {
+    // this is the way old msie versions work
+    res = flip(document.all[szDivId]);
+  }
+  if(elem) {
+    if(res == 0) elem.innerHTML = msg1; else elem.innerHTML = msg2;
+  }
+
+}
+
+function toggleAllBoxes() {
+  if (document.getElementsByTagName) {
+    d = document.getElementsByTagName('div');
+    for (i = 0; i < d.length; i++) {
+      if (d[i].className == 'log') {
+        flip(d[i]);
+      }
+    }
+  }
+}
+
+// -->
+</script>
+
+</head>
+<body>
+<h2 align='center'>SeleniumMaventled</h2><table border='1' align="center">
+<tr>
+<td>Tests passed/Failed/Skipped:</td><td>20/2/0</td>
+</tr><tr>
+<td>Started on:</td><td>Tue Jan 27 09:41:12 CET 2026</td>
+</tr>
+<tr><td>Total time:</td><td>427 seconds (427383 ms)</td>
+</tr><tr>
+<td>Included groups:</td><td></td>
+</tr><tr>
+<td>Excluded groups:</td><td></td>
+</tr>
+</table><p/>
+<small><i>(Hover the method name to see the test class name)</i></small><p/>
+<table width='100%' border='1' class='invocation-failed'>
+<tr><td colspan='4' align='center'><b>FAILED TESTS</b></td></tr>
+<tr><td><b>Test method</b></td>
+<td><b>Attribute(s)</b></td>
+<td width="30%"><b>Exception</b></td>
+<td width="10%"><b>Time (seconds)</b></td>
+<td><b>Instance</b></td>
+</tr>
+<tr>
+<td title='tests.ModulesMPTest.ModuleTreatments()'><b>ModuleTreatments</b><br>Test class: tests.ModulesMPTest</td>
+<td><div><pre>org.openqa.selenium.ElementClickInterceptedException: element click intercepted: Element &lt;div _ngcontent-ng-c3182641179=&quot;&quot; class=&quot;d-flex justify-content-center align-items-center cursor-pointer&quot; id=&quot;tests-map-back-button&quot;&gt;...&lt;/div&gt; is not clickable at point (129, 88). Other element would receive the click: &lt;div class=&quot;cdk-overlay-backdrop cdk-overlay-dark-backdrop cdk-overlay-backdrop-showing&quot;&gt;&lt;/div&gt;
+  (Session info: chrome=144.0.7559.97)
+Build info: version: &apos;4.36.0&apos;, revision: &apos;6d115cfd87&apos;
+System info: os.name: &apos;Windows 11&apos;, os.arch: &apos;amd64&apos;, os.version: &apos;10.0&apos;, java.version: &apos;25&apos;
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Command: [417926d88b37bac4bfc7a79fbe65dd74, clickElement {id=f.67C413798F1A88AFBEAB29A3A718D36C.d.7C79D3D836030AE5E0FE3DF02D53178F.e.81}]
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 144.0.7559.97, chrome: {chromedriverVersion: 143.0.7499.42 (24bdc8c48a0c..., userDataDir: C:\Users\OSCAR~1.VIL\AppDat...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:59272}, goog:processID: 26832, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: windows, proxy: Proxy(), se:cdp: ws://localhost:59272/devtoo..., se:cdpVersion: 144.0.7559.97, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Element: [[ChromeDriver: chrome on windows (417926d88b37bac4bfc7a79fbe65dd74)] -&gt; css selector: [id$=&apos;-back-button&apos;]]
+Session ID: 417926d88b37bac4bfc7a79fbe65dd74
+	at org.openqa.selenium.remote.ErrorCodec.decode(ErrorCodec.java:167)
+	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.decode(W3CHttpResponseCodec.java:138)
+	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.decode(W3CHttpResponseCodec.java:50)
+	at org.openqa.selenium.remote.HttpCommandExecutor.execute(HttpCommandExecutor.java:215)
+	at org.openqa.selenium.remote.service.DriverCommandExecutor.invokeExecute(DriverCommandExecutor.java:216)
+	at org.openqa.selenium.remote.service.DriverCommandExecutor.execute(DriverCommandExecutor.java:174)
+	at org.openqa.selenium.remote.RemoteWebDriver.execute(RemoteWebDriver.java:557)
+	at org.openqa.selenium.remote.RemoteWebElement.execute(RemoteWebElement.java:223)
+	at org.openqa.selenium.remote.RemoteWebElement.click(RemoteWebElement.java:76)
+	at tests.ModulesMPTest.BackToMainMenu(ModulesMPTest.java:280)
+	at tests.ModulesMPTest.ModuleTreatments(ModulesMPTest.java:123)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+	at com.intellij.rt.testng.IDEARemoteTestNG.run(IDEARemoteTestNG.java:65)
+	at com.intellij.rt.testng.RemoteTestNGStarter.main(RemoteTestNGStarter.java:105)
+... Removed 25 stack frames</pre></div><a href='#' onClick='toggleBox("stack-trace1899567935", this, "Click to show all stack frames", "Click to hide stack frames")'>Click to show all stack frames</a>
+<div class='stack-trace' id='stack-trace1899567935'><pre>org.openqa.selenium.ElementClickInterceptedException: element click intercepted: Element &lt;div _ngcontent-ng-c3182641179=&quot;&quot; class=&quot;d-flex justify-content-center align-items-center cursor-pointer&quot; id=&quot;tests-map-back-button&quot;&gt;...&lt;/div&gt; is not clickable at point (129, 88). Other element would receive the click: &lt;div class=&quot;cdk-overlay-backdrop cdk-overlay-dark-backdrop cdk-overlay-backdrop-showing&quot;&gt;&lt;/div&gt;
+  (Session info: chrome=144.0.7559.97)
+Build info: version: &apos;4.36.0&apos;, revision: &apos;6d115cfd87&apos;
+System info: os.name: &apos;Windows 11&apos;, os.arch: &apos;amd64&apos;, os.version: &apos;10.0&apos;, java.version: &apos;25&apos;
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Command: [417926d88b37bac4bfc7a79fbe65dd74, clickElement {id=f.67C413798F1A88AFBEAB29A3A718D36C.d.7C79D3D836030AE5E0FE3DF02D53178F.e.81}]
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 144.0.7559.97, chrome: {chromedriverVersion: 143.0.7499.42 (24bdc8c48a0c..., userDataDir: C:\Users\OSCAR~1.VIL\AppDat...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:59272}, goog:processID: 26832, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: windows, proxy: Proxy(), se:cdp: ws://localhost:59272/devtoo..., se:cdpVersion: 144.0.7559.97, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Element: [[ChromeDriver: chrome on windows (417926d88b37bac4bfc7a79fbe65dd74)] -&gt; css selector: [id$=&apos;-back-button&apos;]]
+Session ID: 417926d88b37bac4bfc7a79fbe65dd74
+	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:483)
+	at org.openqa.selenium.remote.ErrorCodec.decode(ErrorCodec.java:167)
+	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.decode(W3CHttpResponseCodec.java:138)
+	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.decode(W3CHttpResponseCodec.java:50)
+	at org.openqa.selenium.remote.HttpCommandExecutor.execute(HttpCommandExecutor.java:215)
+	at org.openqa.selenium.remote.service.DriverCommandExecutor.invokeExecute(DriverCommandExecutor.java:216)
+	at org.openqa.selenium.remote.service.DriverCommandExecutor.execute(DriverCommandExecutor.java:174)
+	at org.openqa.selenium.remote.RemoteWebDriver.execute(RemoteWebDriver.java:557)
+	at org.openqa.selenium.remote.RemoteWebElement.execute(RemoteWebElement.java:223)
+	at org.openqa.selenium.remote.RemoteWebElement.click(RemoteWebElement.java:76)
+	at tests.ModulesMPTest.BackToMainMenu(ModulesMPTest.java:280)
+	at tests.ModulesMPTest.ModuleTreatments(ModulesMPTest.java:123)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at org.testng.internal.invokers.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:141)
+	at org.testng.internal.invokers.TestInvoker.invokeMethod(TestInvoker.java:687)
+	at org.testng.internal.invokers.TestInvoker.invokeTestMethod(TestInvoker.java:230)
+	at org.testng.internal.invokers.MethodRunner.runInSequence(MethodRunner.java:63)
+	at org.testng.internal.invokers.TestInvoker$MethodInvocationAgent.invoke(TestInvoker.java:995)
+	at org.testng.internal.invokers.TestInvoker.invokeTestMethods(TestInvoker.java:203)
+	at org.testng.internal.invokers.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:154)
+	at org.testng.internal.invokers.TestMethodWorker.run(TestMethodWorker.java:134)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+	at org.testng.TestRunner.privateRun(TestRunner.java:741)
+	at org.testng.TestRunner.run(TestRunner.java:616)
+	at org.testng.SuiteRunner.runTest(SuiteRunner.java:421)
+	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:413)
+	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:373)
+	at org.testng.SuiteRunner.run(SuiteRunner.java:312)
+	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
+	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:95)
+	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1274)
+	at org.testng.TestNG.runSuitesLocally(TestNG.java:1208)
+	at org.testng.TestNG.runSuites(TestNG.java:1112)
+	at org.testng.TestNG.run(TestNG.java:1079)
+	at com.intellij.rt.testng.IDEARemoteTestNG.run(IDEARemoteTestNG.java:65)
+	at com.intellij.rt.testng.RemoteTestNGStarter.main(RemoteTestNGStarter.java:105)
+</pre></div></td>
+<td>31</td>
+<td>tests.ModulesMPTest@30c15d8b</td></tr>
+<tr>
+<td title='tests.ModulesMPTest.ModuleTestsMap()'><b>ModuleTestsMap</b><br>Test class: tests.ModulesMPTest<br/>
+<a href="#Output-1164699452" onClick='toggleBox("Output-1164699452", this, "Show output", "Hide output");'>Show output</a>
+
+<a href="#Output-1164699452" onClick="toggleAllBoxes();">Show all outputs</a>
+<div class='log' id="Output-1164699452">
+ Radiología => OK<br/>
+ Laboratorio => OK<br/>
+ Anatomía patológica => OK<br/>
+ Endoscopias => OK<br/>
+ Otras pruebas => OK<br/>
+</div>
+</td>
+<td><div><pre>org.openqa.selenium.ElementClickInterceptedException: element click intercepted: Element &lt;div _ngcontent-ng-c3182641179=&quot;&quot; class=&quot;d-flex justify-content-center align-items-center cursor-pointer&quot; id=&quot;tests-map-back-button&quot;&gt;...&lt;/div&gt; is not clickable at point (129, 88). Other element would receive the click: &lt;div class=&quot;cdk-overlay-backdrop cdk-overlay-dark-backdrop cdk-overlay-backdrop-showing&quot;&gt;&lt;/div&gt;
+  (Session info: chrome=144.0.7559.97)
+Build info: version: &apos;4.36.0&apos;, revision: &apos;6d115cfd87&apos;
+System info: os.name: &apos;Windows 11&apos;, os.arch: &apos;amd64&apos;, os.version: &apos;10.0&apos;, java.version: &apos;25&apos;
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Command: [417926d88b37bac4bfc7a79fbe65dd74, clickElement {id=f.67C413798F1A88AFBEAB29A3A718D36C.d.7C79D3D836030AE5E0FE3DF02D53178F.e.81}]
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 144.0.7559.97, chrome: {chromedriverVersion: 143.0.7499.42 (24bdc8c48a0c..., userDataDir: C:\Users\OSCAR~1.VIL\AppDat...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:59272}, goog:processID: 26832, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: windows, proxy: Proxy(), se:cdp: ws://localhost:59272/devtoo..., se:cdpVersion: 144.0.7559.97, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Element: [[ChromeDriver: chrome on windows (417926d88b37bac4bfc7a79fbe65dd74)] -&gt; css selector: [id$=&apos;-back-button&apos;]]
+Session ID: 417926d88b37bac4bfc7a79fbe65dd74
+	at org.openqa.selenium.remote.ErrorCodec.decode(ErrorCodec.java:167)
+	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.decode(W3CHttpResponseCodec.java:138)
+	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.decode(W3CHttpResponseCodec.java:50)
+	at org.openqa.selenium.remote.HttpCommandExecutor.execute(HttpCommandExecutor.java:215)
+	at org.openqa.selenium.remote.service.DriverCommandExecutor.invokeExecute(DriverCommandExecutor.java:216)
+	at org.openqa.selenium.remote.service.DriverCommandExecutor.execute(DriverCommandExecutor.java:174)
+	at org.openqa.selenium.remote.RemoteWebDriver.execute(RemoteWebDriver.java:557)
+	at org.openqa.selenium.remote.RemoteWebElement.execute(RemoteWebElement.java:223)
+	at org.openqa.selenium.remote.RemoteWebElement.click(RemoteWebElement.java:76)
+	at tests.ModulesMPTest.BackToMainMenu(ModulesMPTest.java:280)
+	at tests.ModulesMPTest.ModuleTestsMap(ModulesMPTest.java:135)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+	at com.intellij.rt.testng.IDEARemoteTestNG.run(IDEARemoteTestNG.java:65)
+	at com.intellij.rt.testng.RemoteTestNGStarter.main(RemoteTestNGStarter.java:105)
+... Removed 25 stack frames</pre></div><a href='#' onClick='toggleBox("stack-trace1164699452", this, "Click to show all stack frames", "Click to hide stack frames")'>Click to show all stack frames</a>
+<div class='stack-trace' id='stack-trace1164699452'><pre>org.openqa.selenium.ElementClickInterceptedException: element click intercepted: Element &lt;div _ngcontent-ng-c3182641179=&quot;&quot; class=&quot;d-flex justify-content-center align-items-center cursor-pointer&quot; id=&quot;tests-map-back-button&quot;&gt;...&lt;/div&gt; is not clickable at point (129, 88). Other element would receive the click: &lt;div class=&quot;cdk-overlay-backdrop cdk-overlay-dark-backdrop cdk-overlay-backdrop-showing&quot;&gt;&lt;/div&gt;
+  (Session info: chrome=144.0.7559.97)
+Build info: version: &apos;4.36.0&apos;, revision: &apos;6d115cfd87&apos;
+System info: os.name: &apos;Windows 11&apos;, os.arch: &apos;amd64&apos;, os.version: &apos;10.0&apos;, java.version: &apos;25&apos;
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Command: [417926d88b37bac4bfc7a79fbe65dd74, clickElement {id=f.67C413798F1A88AFBEAB29A3A718D36C.d.7C79D3D836030AE5E0FE3DF02D53178F.e.81}]
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 144.0.7559.97, chrome: {chromedriverVersion: 143.0.7499.42 (24bdc8c48a0c..., userDataDir: C:\Users\OSCAR~1.VIL\AppDat...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:59272}, goog:processID: 26832, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: windows, proxy: Proxy(), se:cdp: ws://localhost:59272/devtoo..., se:cdpVersion: 144.0.7559.97, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Element: [[ChromeDriver: chrome on windows (417926d88b37bac4bfc7a79fbe65dd74)] -&gt; css selector: [id$=&apos;-back-button&apos;]]
+Session ID: 417926d88b37bac4bfc7a79fbe65dd74
+	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:483)
+	at org.openqa.selenium.remote.ErrorCodec.decode(ErrorCodec.java:167)
+	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.decode(W3CHttpResponseCodec.java:138)
+	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.decode(W3CHttpResponseCodec.java:50)
+	at org.openqa.selenium.remote.HttpCommandExecutor.execute(HttpCommandExecutor.java:215)
+	at org.openqa.selenium.remote.service.DriverCommandExecutor.invokeExecute(DriverCommandExecutor.java:216)
+	at org.openqa.selenium.remote.service.DriverCommandExecutor.execute(DriverCommandExecutor.java:174)
+	at org.openqa.selenium.remote.RemoteWebDriver.execute(RemoteWebDriver.java:557)
+	at org.openqa.selenium.remote.RemoteWebElement.execute(RemoteWebElement.java:223)
+	at org.openqa.selenium.remote.RemoteWebElement.click(RemoteWebElement.java:76)
+	at tests.ModulesMPTest.BackToMainMenu(ModulesMPTest.java:280)
+	at tests.ModulesMPTest.ModuleTestsMap(ModulesMPTest.java:135)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at org.testng.internal.invokers.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:141)
+	at org.testng.internal.invokers.TestInvoker.invokeMethod(TestInvoker.java:687)
+	at org.testng.internal.invokers.TestInvoker.invokeTestMethod(TestInvoker.java:230)
+	at org.testng.internal.invokers.MethodRunner.runInSequence(MethodRunner.java:63)
+	at org.testng.internal.invokers.TestInvoker$MethodInvocationAgent.invoke(TestInvoker.java:995)
+	at org.testng.internal.invokers.TestInvoker.invokeTestMethods(TestInvoker.java:203)
+	at org.testng.internal.invokers.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:154)
+	at org.testng.internal.invokers.TestMethodWorker.run(TestMethodWorker.java:134)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+	at org.testng.TestRunner.privateRun(TestRunner.java:741)
+	at org.testng.TestRunner.run(TestRunner.java:616)
+	at org.testng.SuiteRunner.runTest(SuiteRunner.java:421)
+	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:413)
+	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:373)
+	at org.testng.SuiteRunner.run(SuiteRunner.java:312)
+	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
+	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:95)
+	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1274)
+	at org.testng.TestNG.runSuitesLocally(TestNG.java:1208)
+	at org.testng.TestNG.runSuites(TestNG.java:1112)
+	at org.testng.TestNG.run(TestNG.java:1079)
+	at com.intellij.rt.testng.IDEARemoteTestNG.run(IDEARemoteTestNG.java:65)
+	at com.intellij.rt.testng.RemoteTestNGStarter.main(RemoteTestNGStarter.java:105)
+</pre></div></td>
+<td>32</td>
+<td>tests.ModulesMPTest@30c15d8b</td></tr>
+</table><p>
+<table width='100%' border='1' class='invocation-passed'>
+<tr><td colspan='4' align='center'><b>PASSED TESTS</b></td></tr>
+<tr><td><b>Test method</b></td>
+<td><b>Attribute(s)</b></td>
+<td width="30%"><b>Exception</b></td>
+<td width="10%"><b>Time (seconds)</b></td>
+<td><b>Instance</b></td>
+</tr>
+<tr>
+<td title='tests.ModulesMPTest.ViewHistory()'><b>ViewHistory</b><br>Test class: tests.ModulesMPTest</td>
+<td></td>
+<td>19</td>
+<td>tests.ModulesMPTest@30c15d8b</td></tr>
+<tr>
+<td title='tests.ModulesMPTest.ModuleClinicalDocuments()'><b>ModuleClinicalDocuments</b><br>Test class: tests.ModulesMPTest<br/>
+<a href="#Output-1454870101" onClick='toggleBox("Output-1454870101", this, "Show output", "Hide output");'>Show output</a>
+
+<a href="#Output-1454870101" onClick="toggleAllBoxes();">Show all outputs</a>
+<div class='log' id="Output-1454870101">
+ Lista de trabajo => OK<br/>
+</div>
+</td>
+<td></td>
+<td>18</td>
+<td>tests.ModulesMPTest@30c15d8b</td></tr>
+<tr>
+<td title='tests.ModulesMPTest.ModuleAllergiesAndAlerts()'><b>ModuleAllergiesAndAlerts</b><br>Test class: tests.ModulesMPTest<br/>
+<a href="#Output-550572371" onClick='toggleBox("Output-550572371", this, "Show output", "Hide output");'>Show output</a>
+
+<a href="#Output-550572371" onClick="toggleAllBoxes();">Show all outputs</a>
+<div class='log' id="Output-550572371">
+ Alergias y alertas => OK<br/>
+</div>
+</td>
+<td></td>
+<td>0</td>
+<td>tests.ModulesMPTest@30c15d8b</td></tr>
+<tr>
+<td title='tests.ModulesMPTest.ModuleAnamnesis()'><b>ModuleAnamnesis</b><br>Test class: tests.ModulesMPTest<br/>
+<a href="#Output-486348917" onClick='toggleBox("Output-486348917", this, "Show output", "Hide output");'>Show output</a>
+
+<a href="#Output-486348917" onClick="toggleAllBoxes();">Show all outputs</a>
+<div class='log' id="Output-486348917">
+ Anamnesis => OK<br/>
+</div>
+</td>
+<td></td>
+<td>2</td>
+<td>tests.ModulesMPTest@30c15d8b</td></tr>
+<tr>
+<td title='tests.ModulesMPTest.ModuleEvolutionaryCourse()'><b>ModuleEvolutionaryCourse</b><br>Test class: tests.ModulesMPTest<br/>
+<a href="#Output-61304908" onClick='toggleBox("Output-61304908", this, "Show output", "Hide output");'>Show output</a>
+
+<a href="#Output-61304908" onClick="toggleAllBoxes();">Show all outputs</a>
+<div class='log' id="Output-61304908">
+ Curso evolutivo => OK<br/>
+</div>
+</td>
+<td></td>
+<td>1</td>
+<td>tests.ModulesMPTest@30c15d8b</td></tr>
+<tr>
+<td title='tests.ModulesMPTest.ModuleBalancesRegistry()'><b>ModuleBalancesRegistry</b><br>Test class: tests.ModulesMPTest<br/>
+<a href="#Output-741883443" onClick='toggleBox("Output-741883443", this, "Show output", "Hide output");'>Show output</a>
+
+<a href="#Output-741883443" onClick="toggleAllBoxes();">Show all outputs</a>
+<div class='log' id="Output-741883443">
+ Registro de balances => OK<br/>
+</div>
+</td>
+<td></td>
+<td>2</td>
+<td>tests.ModulesMPTest@30c15d8b</td></tr>
+<tr>
+<td title='tests.ModulesMPTest.ModuleDietsAndRecomendations()'><b>ModuleDietsAndRecomendations</b><br>Test class: tests.ModulesMPTest<br/>
+<a href="#Output-1628305283" onClick='toggleBox("Output-1628305283", this, "Show output", "Hide output");'>Show output</a>
+
+<a href="#Output-1628305283" onClick="toggleAllBoxes();">Show all outputs</a>
+<div class='log' id="Output-1628305283">
+⚠ Dietas y recomendaciones => NO está accesible.<br/>
+</div>
+</td>
+<td></td>
+<td>30</td>
+<td>tests.ModulesMPTest@30c15d8b</td></tr>
+<tr>
+<td title='tests.ModulesMPTest.ModuleSurgicalInterventions()'><b>ModuleSurgicalInterventions</b><br>Test class: tests.ModulesMPTest<br/>
+<a href="#Output-57264571" onClick='toggleBox("Output-57264571", this, "Show output", "Hide output");'>Show output</a>
+
+<a href="#Output-57264571" onClick="toggleAllBoxes();">Show all outputs</a>
+<div class='log' id="Output-57264571">
+⚠ Intervenciones => NO está accesible.<br/>
+</div>
+</td>
+<td></td>
+<td>30</td>
+<td>tests.ModulesMPTest@30c15d8b</td></tr>
+<tr>
+<td title='tests.ModulesMPTest.ModuleDischargeReport()'><b>ModuleDischargeReport</b><br>Test class: tests.ModulesMPTest<br/>
+<a href="#Output-158460163" onClick='toggleBox("Output-158460163", this, "Show output", "Hide output");'>Show output</a>
+
+<a href="#Output-158460163" onClick="toggleAllBoxes();">Show all outputs</a>
+<div class='log' id="Output-158460163">
+⚠ Informe de alta => NO está accesible.<br/>
+</div>
+</td>
+<td></td>
+<td>30</td>
+<td>tests.ModulesMPTest@30c15d8b</td></tr>
+<tr>
+<td title='tests.ModulesMPTest.ModuleClinicalReports()'><b>ModuleClinicalReports</b><br>Test class: tests.ModulesMPTest<br/>
+<a href="#Output-181372317" onClick='toggleBox("Output-181372317", this, "Show output", "Hide output");'>Show output</a>
+
+<a href="#Output-181372317" onClick="toggleAllBoxes();">Show all outputs</a>
+<div class='log' id="Output-181372317">
+⚠ Informes clínicos => NO está accesible.<br/>
+</div>
+</td>
+<td></td>
+<td>30</td>
+<td>tests.ModulesMPTest@30c15d8b</td></tr>
+<tr>
+<td title='tests.ModulesMPTest.ModuleBenefits()'><b>ModuleBenefits</b><br>Test class: tests.ModulesMPTest<br/>
+<a href="#Output-397822273" onClick='toggleBox("Output-397822273", this, "Show output", "Hide output");'>Show output</a>
+
+<a href="#Output-397822273" onClick="toggleAllBoxes();">Show all outputs</a>
+<div class='log' id="Output-397822273">
+⚠ Prestaciones => NO está accesible.<br/>
+</div>
+</td>
+<td></td>
+<td>30</td>
+<td>tests.ModulesMPTest@30c15d8b</td></tr>
+<tr>
+<td title='tests.ModulesMPTest.ModuleConsumptions()'><b>ModuleConsumptions</b><br>Test class: tests.ModulesMPTest<br/>
+<a href="#Output-827843776" onClick='toggleBox("Output-827843776", this, "Show output", "Hide output");'>Show output</a>
+
+<a href="#Output-827843776" onClick="toggleAllBoxes();">Show all outputs</a>
+<div class='log' id="Output-827843776">
+⚠ Imputación de consumos => NO está accesible.<br/>
+</div>
+</td>
+<td></td>
+<td>30</td>
+<td>tests.ModulesMPTest@30c15d8b</td></tr>
+<tr>
+<td title='tests.ModulesMPTest.ModuleMedicalHistory()'><b>ModuleMedicalHistory</b><br>Test class: tests.ModulesMPTest<br/>
+<a href="#Output-521466380" onClick='toggleBox("Output-521466380", this, "Show output", "Hide output");'>Show output</a>
+
+<a href="#Output-521466380" onClick="toggleAllBoxes();">Show all outputs</a>
+<div class='log' id="Output-521466380">
+ Antecedentes => OK<br/>
+</div>
+</td>
+<td></td>
+<td>0</td>
+<td>tests.ModulesMPTest@30c15d8b</td></tr>
+<tr>
+<td title='tests.ModulesMPTest.ModuleInterconsultation()'><b>ModuleInterconsultation</b><br>Test class: tests.ModulesMPTest<br/>
+<a href="#Output-92575452" onClick='toggleBox("Output-92575452", this, "Show output", "Hide output");'>Show output</a>
+
+<a href="#Output-92575452" onClick="toggleAllBoxes();">Show all outputs</a>
+<div class='log' id="Output-92575452">
+⚠ Interconsultas => NO está accesible.<br/>
+</div>
+</td>
+<td></td>
+<td>30</td>
+<td>tests.ModulesMPTest@30c15d8b</td></tr>
+<tr>
+<td title='tests.ModulesMPTest.ModulePharmacotherapeuticProfile()'><b>ModulePharmacotherapeuticProfile</b><br>Test class: tests.ModulesMPTest<br/>
+<a href="#Output-465152579" onClick='toggleBox("Output-465152579", this, "Show output", "Hide output");'>Show output</a>
+
+<a href="#Output-465152579" onClick="toggleAllBoxes();">Show all outputs</a>
+<div class='log' id="Output-465152579">
+⚠ Datos generales => NO está accesible.<br/>
+ Errores de medicación => OK<br/>
+</div>
+</td>
+<td></td>
+<td>48</td>
+<td>tests.ModulesMPTest@30c15d8b</td></tr>
+<tr>
+<td title='tests.ModulesMPTest.ModuleConstantsRegistry()'><b>ModuleConstantsRegistry</b><br>Test class: tests.ModulesMPTest<br/>
+<a href="#Output-1186371052" onClick='toggleBox("Output-1186371052", this, "Show output", "Hide output");'>Show output</a>
+
+<a href="#Output-1186371052" onClick="toggleAllBoxes();">Show all outputs</a>
+<div class='log' id="Output-1186371052">
+ Registro de constantes => OK<br/>
+</div>
+</td>
+<td></td>
+<td>3</td>
+<td>tests.ModulesMPTest@30c15d8b</td></tr>
+<tr>
+<td title='tests.ModulesMPTest.ModuleSummary()'><b>ModuleSummary</b><br>Test class: tests.ModulesMPTest<br/>
+<a href="#Output-68195659" onClick='toggleBox("Output-68195659", this, "Show output", "Hide output");'>Show output</a>
+
+<a href="#Output-68195659" onClick="toggleAllBoxes();">Show all outputs</a>
+<div class='log' id="Output-68195659">
+ Resumen => OK<br/>
+</div>
+</td>
+<td></td>
+<td>0</td>
+<td>tests.ModulesMPTest@30c15d8b</td></tr>
+<tr>
+<td title='tests.ModulesMPTest.ModuleBloodProducts()'><b>ModuleBloodProducts</b><br>Test class: tests.ModulesMPTest<br/>
+<a href="#Output-634638280" onClick='toggleBox("Output-634638280", this, "Show output", "Hide output");'>Show output</a>
+
+<a href="#Output-634638280" onClick="toggleAllBoxes();">Show all outputs</a>
+<div class='log' id="Output-634638280">
+⚠ Hemoderivados => NO está accesible.<br/>
+</div>
+</td>
+<td></td>
+<td>37</td>
+<td>tests.ModulesMPTest@30c15d8b</td></tr>
+<tr>
+<td title='tests.ModulesMPTest.Login()'><b>Login</b><br>Test class: tests.ModulesMPTest</td>
+<td></td>
+<td>16</td>
+<td>tests.ModulesMPTest@30c15d8b</td></tr>
+<tr>
+<td title='tests.ModulesMPTest.ModuleDiagnoses()'><b>ModuleDiagnoses</b><br>Test class: tests.ModulesMPTest<br/>
+<a href="#Output-1940912369" onClick='toggleBox("Output-1940912369", this, "Show output", "Hide output");'>Show output</a>
+
+<a href="#Output-1940912369" onClick="toggleAllBoxes();">Show all outputs</a>
+<div class='log' id="Output-1940912369">
+ Diagnósticoss => OK<br/>
+</div>
+</td>
+<td></td>
+<td>2</td>
+<td>tests.ModulesMPTest@30c15d8b</td></tr>
+</table><p>
+</body>
+</html>
