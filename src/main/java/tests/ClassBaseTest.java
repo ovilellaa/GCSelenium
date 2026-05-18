@@ -4,6 +4,7 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.ITestContext;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
 
@@ -40,10 +41,10 @@ public abstract class ClassBaseTest {
     }
 
     @AfterSuite
-    public void tearDownSuite() {
-        //        if (driver != null) {
-        //            driver.quit();
-        //        }
+    public void tearDownSuite(ITestContext context) {
+        if (driver != null && context.getFailedTests().size() == 0) {
+            driver.quit();
+        }
     }
 
     public void GotoToUrl() {

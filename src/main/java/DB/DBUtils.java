@@ -1,15 +1,15 @@
 package DB;
 
 import java.sql.*;
+import tests.ConfigReader;
 
 public class DBUtils {
 
-    private static final String URL = "jdbc:sqlserver://172.17.11.11;databaseName=Configuration;encrypt=true;trustServerCertificate=true;";
-    private static final String USER = "cubeuser";
-    private static final String PASSWORD = "R1b0nucl31c0";
-
     public static Connection getConnection() throws Exception {
-        return DriverManager.getConnection(URL, USER, PASSWORD);
+        String url = ConfigReader.get("db.url");
+        String user = ConfigReader.get("db.user");
+        String password = ConfigReader.get("db.password");
+        return DriverManager.getConnection(url, user, password);
     }
 
     public static String getValor(String query, String columna) throws Exception {
