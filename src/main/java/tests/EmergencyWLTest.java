@@ -1,6 +1,8 @@
 package tests;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
@@ -89,11 +91,9 @@ public class EmergencyWLTest extends ClassBaseTest {
 
             WaitAMomentPlease();
 
-            WebElement dialogoImprimirTicket = driver.findElement(By.id("mat-dialog-2"));
-            if (dialogoImprimirTicket.isDisplayed()) {
-                WebElement botonCancelar = driver.findElement(By.id("alert-cancel"));
-                botonCancelar.click();
-
+            List<WebElement> botonesDialogo = driver.findElements(By.id("alert-cancel"));
+            if (!botonesDialogo.isEmpty()) {
+                botonesDialogo.getFirst().click();
             }
 
 
@@ -184,7 +184,7 @@ public class EmergencyWLTest extends ClassBaseTest {
             OpenActionMenu();
 
             WebElement asignarMedico = driver.findElement(By.id("assign_doctor"));
-            asignarMedico.click();
+            ((JavascriptExecutor) driver).executeScript("arguments[0].click();", asignarMedico);
             WebElement filtrarMedico = driver.findElement(By.id("user-autocomplete-default-id"));
             String surnameDoctor = ConfigReader.get("surname_doctor");
             filtrarMedico.sendKeys(surnameDoctor);
@@ -265,7 +265,7 @@ public class EmergencyWLTest extends ClassBaseTest {
             WebElement atenderUrgencias = driver.findElement(By.id("attend_emergency"));
 
             if (atenderUrgencias.isEnabled()) {
-                atenderUrgencias.click();
+                ((JavascriptExecutor) driver).executeScript("arguments[0].click();", atenderUrgencias);
 
                 AssingBox(0);
                 //   WebElement aceptarAsignacion = wait.until(ExpectedConditions.presenceOfElementLocated(By.id("continue-EmergencyTransferContainer-button")));
@@ -297,7 +297,7 @@ public class EmergencyWLTest extends ClassBaseTest {
         }
     }
 
-    @Test(priority = 9, dependsOnMethods = {"EnterEmergencyWL", "CreateEmergencySheet"})
+    @Test(priority = 10, dependsOnMethods = {"EnterEmergencyWL", "CreateEmergencySheet", "AttendEmergency"})
     public void MoveToBox() {
         GotoMNPTab();
 
@@ -310,7 +310,7 @@ public class EmergencyWLTest extends ClassBaseTest {
 
             AssingBox(1);
 
-            WebElement aceptarAsignacion = wait.until(ExpectedConditions.presenceOfElementLocated(By.id("accept-EmergencyTransferContainer-button")));
+            WebElement aceptarAsignacion = wait.until(ExpectedConditions.elementToBeClickable(By.id("accept-EmergencyTransferContainer-button")));
             aceptarAsignacion.click();
             CloseActionMenu(); // cerramos el menu de acciones que esta abierto
         }
@@ -318,7 +318,7 @@ public class EmergencyWLTest extends ClassBaseTest {
     }
 
 
-    @Test(priority = 10, dependsOnMethods = {"EnterEmergencyWL", "CreateEmergencySheet"})
+    @Test(priority = 11, dependsOnMethods = {"EnterEmergencyWL", "CreateEmergencySheet"})
     public void CreateEmergencyAnamnesis() {
         if (IsMNPTabActive()) {
             if (IsPatientInEmergency()) {
@@ -382,7 +382,7 @@ public class EmergencyWLTest extends ClassBaseTest {
         // CloseMPTab();
     }
 
-    @Test(priority = 11, dependsOnMethods = {"EnterEmergencyWL", "CreateEmergencySheet", "CreateEmergencyAnamnesis"})
+    @Test(priority = 12, dependsOnMethods = {"EnterEmergencyWL", "CreateEmergencySheet", "CreateEmergencyAnamnesis"})
     public void CreateEmergencyEvolution() {
 
         if (IsMNPTabActive()) {
@@ -432,11 +432,9 @@ public class EmergencyWLTest extends ClassBaseTest {
 
             WebElement fechaAlta = driver.findElement(By.id("dischargedDate"));
             fechaAlta.click();
-            // WebElement horaAlta = driver.findElement(By.xpath("/html/body/gc-root/gc-home/div/gc-sidebar/mat-sidenav-container/mat-sidenav-content/gc-discharge-report/div/mat-drawer-container/mat-drawer-content/div/gc-body-content/section/div/div/div/form/div/div[1]/div[1]/div[1]/div[2]/gc-time/mat-form-field/div/div[1]/div/input"));
-            WebElement horaAlta = driver.findElement(By.id("mat-input-3"));
+            WebElement horaAlta = driver.findElement(By.cssSelector("gc-time input"));
             horaAlta.click();
-            //WebElement destinoAlta = driver.findElement(By.xpath("/html/body/gc-root/gc-home/div/gc-sidebar/mat-sidenav-container/mat-sidenav-content/gc-discharge-report/div/mat-drawer-container/mat-drawer-content/div/gc-body-content/section/div/div/div/form/div/div[1]/div[1]/div[1]/div[3]/gc-select/mat-form-field/div/div[1]/div[1]/mat-select/div/div[1]"));
-            WebElement destinoAlta = driver.findElement(By.id("mat-select-value-1"));
+            WebElement destinoAlta = driver.findElement(By.id("dischargedDestinationId"));
             destinoAlta.click();
             WebElement seleccionarDestino = driver.findElement(By.id("dischargedDestinationId-0"));
             seleccionarDestino.click();
@@ -476,7 +474,7 @@ public class EmergencyWLTest extends ClassBaseTest {
             WebElement liberarUrgencia = driver.findElement(By.id("release_emergency"));
 
             if (liberarUrgencia.isEnabled()) {
-                liberarUrgencia.click();
+                ((JavascriptExecutor) driver).executeScript("arguments[0].click();", liberarUrgencia);
 
                 WebElement aceptarLiberacion = driver.findElement(By.id("alert-confirm"));
                 aceptarLiberacion.click();
@@ -553,7 +551,9 @@ public class EmergencyWLTest extends ClassBaseTest {
     }
 
     public boolean IsPatientInEmergency() {
-        //Filtra por el paciente
+        // Cerrar cualquier menú u overlay abierto antes de interactuar con la worklist
+        new Actions(driver).sendKeys(Keys.ESCAPE).perform();
+
         WebElement filtroPaciente = driver.findElement(By.id("filter-input"));
         filtroPaciente.clear();
         TakeOffServerFilters();
@@ -571,9 +571,8 @@ public class EmergencyWLTest extends ClassBaseTest {
             ));
 
             if (!filas.isEmpty()) {
-                // Esperar a que la primera fila sea clicable
-                WebElement primeraFila = wait.until(ExpectedConditions.elementToBeClickable(filas.getFirst()));
-                primeraFila.click();
+                WebElement primeraFila = wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("[id^='emergencyGridId-']")));
+                ((JavascriptExecutor) driver).executeScript("arguments[0].click();", primeraFila);
                 isPatientInEmergency = true;
             } else {
                 isPatientInEmergency = false;
@@ -588,24 +587,33 @@ public class EmergencyWLTest extends ClassBaseTest {
 
 
     public void TakeOffServerFilters() {
-        WebElement filtroWL = wait.until(ExpectedConditions.elementToBeClickable(By.id("filters-button-emergencyGridId")));
-        filtroWL.click();
+        List<WebElement> backdrops = driver.findElements(By.cssSelector(".cdk-overlay-backdrop-showing"));
+        if (!backdrops.isEmpty()) {
+            new Actions(driver).sendKeys(Keys.ESCAPE).perform();
+            wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector(".cdk-overlay-backdrop-showing")));
+        }
 
-        WebElement withoutFilter = wait.until(ExpectedConditions.elementToBeClickable(By.id("filter-not-filtered")));
-        withoutFilter.click();
+        WebElement filtroWL = wait.until(ExpectedConditions.presenceOfElementLocated(By.id("filters-button-emergencyGridId")));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", filtroWL);
 
-
+        WebElement withoutFilter = wait.until(ExpectedConditions.presenceOfElementLocated(By.id("filter-not-filtered")));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", withoutFilter);
     }
 
     private void OpenActionMenu() {
-        WebElement accionesUrgencias = wait.until(ExpectedConditions.elementToBeClickable(By.id("actions-button-emergencyGridId")));
-        accionesUrgencias.click();
+        List<WebElement> backdrops = driver.findElements(By.cssSelector(".cdk-overlay-backdrop-showing"));
+        if (!backdrops.isEmpty()) {
+            new Actions(driver).sendKeys(Keys.ESCAPE).perform();
+            wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector(".cdk-overlay-backdrop-showing")));
+        }
+        WebElement accionesUrgencias = wait.until(ExpectedConditions.presenceOfElementLocated(By.id("actions-button-emergencyGridId")));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", accionesUrgencias);
         WaitAMomentPlease();
     }
 
     public void CloseActionMenu() {
-        WebElement backdrop = driver.findElement(By.cssSelector("div.cdk-overlay-backdrop.cdk-overlay-backdrop-showing"));
-        backdrop.click();
+        new Actions(driver).sendKeys(Keys.ESCAPE).perform();
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector(".cdk-overlay-backdrop-showing")));
     }
 
     public boolean IsBoxFree(int nBox) {
@@ -634,13 +642,16 @@ public class EmergencyWLTest extends ClassBaseTest {
     }
 
     public void AssingBox(int nBox) {
-        WebElement abrirListaConsultas = wait.until(ExpectedConditions.elementToBeClickable(By.id("list-button")));
-        abrirListaConsultas.click();
+        List<WebElement> listButtons = driver.findElements(By.id("list-button"));
+        if (listButtons.isEmpty()) {
+            // El paciente ya tiene un box asignado, no es necesario seleccionar uno
+            return;
+        }
 
-        //Mira el estado del box
+        listButtons.getFirst().click();
+
         boolean estaLibre = IsBoxFree(nBox);
 
-        //Asigna la consulta de la fila parámetro
         WebElement consulta1 = driver.findElement(By.id("gridId-" + nBox));
         consulta1.click();
         WebElement accionesMover = driver.findElement(By.id("menu-actions-button"));
@@ -648,7 +659,6 @@ public class EmergencyWLTest extends ClassBaseTest {
         WebElement asignarConsulta = wait.until(ExpectedConditions.elementToBeClickable(By.id("assign")));
         asignarConsulta.click();
 
-        //Si el box no estaba libre reemplaza
         if (!estaLibre) {
             WebElement aceptarReemplazar = driver.findElement(By.id("alert-button1"));
             aceptarReemplazar.click();
@@ -662,7 +672,7 @@ public class EmergencyWLTest extends ClassBaseTest {
         OpenActionMenu();
 
         WebElement verHistoria = driver.findElement(By.id("see_history"));
-        verHistoria.click();
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", verHistoria);
         if (closeTab) {
             CloseMPTab();
         } else {

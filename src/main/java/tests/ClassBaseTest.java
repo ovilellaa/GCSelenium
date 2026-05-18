@@ -4,7 +4,8 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.ITestContext;
+import org.testng.ITestResult;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
 
@@ -19,6 +20,8 @@ import java.util.Set;
 public abstract class ClassBaseTest {
     protected static WebDriver driver;
     protected static WebDriverWait wait;
+
+    private static boolean suiteHasFailed = false;
 
     private String MNP_Tab;
 
@@ -40,9 +43,16 @@ public abstract class ClassBaseTest {
 
     }
 
+    @AfterMethod(alwaysRun = true)
+    public void trackTestResult(ITestResult result) {
+        if (result.getStatus() == ITestResult.FAILURE) {
+            suiteHasFailed = true;
+        }
+    }
+
     @AfterSuite
-    public void tearDownSuite(ITestContext context) {
-        if (driver != null && context.getFailedTests().size() == 0) {
+    public void tearDownSuite() {
+        if (driver != null && !suiteHasFailed) {
             driver.quit();
         }
     }
@@ -110,24 +120,11 @@ public abstract class ClassBaseTest {
         WebElement loginButton = driver.findElement(By.id("login-button"));
         loginButton.click();
 
-        // Espera unos segundos para que se renderice el siguiente paso
         try {
-            WaitAMomentPlease();
-            List<WebElement> elements = driver.findElements(By.id("defaultButtonId"));
-            if (!elements.isEmpty()) {
-                elements.getFirst().click();
-            }
-
-            // Espera a que aparezca el botón de selección de centro
-            //WebElement selectCenter = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"defaultButtonId\"]/span[1]/div/span[1]")));
-
-            // Si está presente y visible, haz clic
-            // if (selectCenter.isDisplayed()) {
-            //    selectCenter.click();
-            //}
-
+            WebElement btn = wait.until(ExpectedConditions.elementToBeClickable(By.id("defaultButtonId")));
+            btn.click();
         } catch (TimeoutException e) {
-
+            // El botón de selección de centro no aparece en todos los entornos
         }
     }
 
@@ -207,7 +204,7 @@ public abstract class ClassBaseTest {
     public void Sign(String password) {
         WebElement imgElement = driver.findElement(By.cssSelector("img.image.ng-star-inserted"));
         imgElement.click();
-        WebElement passFirma = driver.findElement(By.id("password"));
+        WebElement passFirma = wait.until(ExpectedConditions.presenceOfElementLocated(By.id("password")));
         passFirma.sendKeys(password);
 
         WebElement firmar = driver.findElement(By.id("sign-UserSignComponent-button"));
