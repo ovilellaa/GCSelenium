@@ -27,7 +27,7 @@ public abstract class ClassBaseTest {
 
         // configurar driver chrome
         String driverPath = Paths.get("drivers", "chromedriver.exe").toAbsolutePath().toString();
-        System.setProperty("webdriver.chrome.driver", driverPath);
+    //    System.setProperty("webdriver.chrome.driver", driverPath);
 
         //crear instancia
         driver = new ChromeDriver();

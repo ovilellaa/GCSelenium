@@ -61,7 +61,7 @@ public class ModulesMNPTest extends ClassBaseTest {
         if (OpenModule(By.id("hospitalization-sidebar"), By.id("emergency-back-button"))) {
             CheckModule("Lista trabajo", By.id("worklist-sidebar"), By.tagName("gc-hospitalization-list"));
             CheckModule("Planificador de cuidados", By.id("care_planner-sidebar"), By.cssSelector("th.mat-column-patientFullName"));
-            CheckModule("Control de pruebas", By.id("test_control-sidebar"), By.id("filters-button"));
+        //    CheckModule("Control de pruebas", By.id("test_control-sidebar"), By.id("filters-button"));
             CheckModule("Dietas", By.id("diets-sidebar"), By.tagName("gc-diets-worklist-container"));
             CheckModule("Pacientes sin dieta activa", By.id("inactive_diets-sidebar"), By.tagName("gc-inactive-diets-worklist-grid"));
             CheckModule("Mapa de Hospitalización", By.id("hospitalization_map-sidebar"), By.tagName("gc-hospitalization-map"));

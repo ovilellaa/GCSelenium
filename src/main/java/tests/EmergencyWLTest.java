@@ -137,6 +137,7 @@ public class EmergencyWLTest extends ClassBaseTest {
                 marcarCuestionario.click();
                 WebElement aceptarTriaje = driver.findElement(By.id("select-TriageContainer-button"));
                 aceptarTriaje.click();
+                CloseActionsMenuWL();
             } else {
                 CloseActionsMenuWL();
                 Reporter.log("⚠ El paciente ya tiene el triaje hecho.");
@@ -160,7 +161,7 @@ public class EmergencyWLTest extends ClassBaseTest {
 
                 WaitAMomentPlease();
 
-                WebElement dialogoTriaje = driver.findElement(By.tagName("gc-triage"));
+                WebElement dialogoTriaje = wait.until(ExpectedConditions.elementToBeClickable(By.tagName("gc-triage")));
 
                 Assert.assertTrue(dialogoTriaje.isDisplayed());
 
