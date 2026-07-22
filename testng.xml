@@ -17,6 +17,7 @@
             <!-- <class name="tests.SurgeryWLTest"/> -->
             <!-- <class name="tests.AllergiesAlertsTest"/> -->
             <!-- <class name="tests.AntecedentsTest"/> -->
+            <!-- <class name="tests.BenefitsTest"/> -->
 
         </classes>
     </test>
