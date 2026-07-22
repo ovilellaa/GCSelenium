@@ -2,6 +2,16 @@
 target/
 build/
 out/
+dependency-reduced-pom.xml
+
+# Resultados de ejecucion de TestNG
+test-output/
+
+# Drivers de navegador (binarios especificos de plataforma/version)
+drivers/
+
+# Volcados de depuracion personal
+arbol.txt
 
 # Excluir configuraciones locales de pruebas
 src/main/tests/resources/
