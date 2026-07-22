@@ -15,6 +15,7 @@
                    <!--  <class name="tests.ModulesMPTest"/> -->
               <class name="tests.EmergencyWLTest"/>
             <!-- <class name="tests.SurgeryWLTest"/> -->
+            <!-- <class name="tests.AllergiesAlertsTest"/> -->
 
         </classes>
     </test>

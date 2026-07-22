@@ -5,6 +5,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.ITestResult;
+import org.testng.Reporter;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
@@ -272,5 +273,166 @@ public abstract class ClassBaseTest {
         // abre las acciones del boton + del MNP
         WebElement botonCrear = driver.findElement(By.id("add-action"));
         botonCrear.click();
+    }
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // MÉTODOS COMUNES DE GESTIÓN DE MODALES
+    // Presentes en todos los tests que abren el historial clínico de un paciente.
+    // ─────────────────────────────────────────────────────────────────────────
+
+    /**
+     * Selecciona el motivo en el modal de acceso a historia ajena y pulsa Continuar.
+     * Aparece cuando el paciente no está asignado al usuario en sesión.
+     * IDs: "reason" (mat-select), "continue-MessageComponent-button".
+     *
+     * @param reason texto de la opción a seleccionar, p.ej. "Guardia"
+     */
+    protected void SelectAccessReason(String reason) {
+        try {
+            WebElement motivoSelect = wait.until(
+                    ExpectedConditions.elementToBeClickable(By.id("reason")));
+            motivoSelect.click();
+
+            WebElement option = wait.until(
+                    ExpectedConditions.elementToBeClickable(
+                            By.xpath("//mat-option[contains(.,'" + reason + "')]")));
+            option.click();
+
+            WebElement continuar = wait.until(
+                    ExpectedConditions.elementToBeClickable(
+                            By.id("continue-MessageComponent-button")));
+            continuar.click();
+
+            Reporter.log("Motivo de acceso seleccionado: " + reason);
+        } catch (TimeoutException | NoSuchElementException e) {
+            Reporter.log("No apareció el modal de motivo de acceso (paciente asignado).");
+        }
+    }
+
+    /**
+     * Gestiona el modal gc-alerts "Alertas vitales detectadas" si aparece.
+     * Botón: id="accept-AlertsContainer-button".
+     * Llamar ANTES de handleReadOnlyAlert().
+     */
+    protected void handleVitalAlertsDialog() {
+        try {
+            WebDriverWait shortWait = new WebDriverWait(driver, Duration.ofSeconds(4));
+            shortWait.until(ExpectedConditions.elementToBeClickable(
+                    By.id("accept-AlertsContainer-button")));
+            driver.findElement(By.id("accept-AlertsContainer-button")).click();
+            wait.until(ExpectedConditions.invisibilityOfElementLocated(
+                    By.cssSelector("gc-alerts")));
+            wait.until(ExpectedConditions.invisibilityOfElementLocated(
+                    By.cssSelector(".cdk-overlay-backdrop")));
+            Reporter.log("Modal 'Alertas vitales detectadas' gestionado.");
+        } catch (TimeoutException e) {
+            Reporter.log("No apareció modal de alertas vitales.");
+        }
+    }
+
+    /**
+     * Gestiona el componente gc-alert (modo solo lectura / sesión duplicada).
+     * Botón: id="continue-button".
+     * Llamar DESPUÉS de handleVitalAlertsDialog().
+     */
+    protected void handleReadOnlyAlert() {
+        try {
+            WebDriverWait shortWait = new WebDriverWait(driver, Duration.ofSeconds(4));
+            WebElement continuarBtn = shortWait.until(
+                    ExpectedConditions.elementToBeClickable(By.id("continue-button")));
+            continuarBtn.click();
+            wait.until(ExpectedConditions.invisibilityOfElementLocated(
+                    By.cssSelector("gc-alert")));
+            wait.until(ExpectedConditions.invisibilityOfElementLocated(
+                    By.cssSelector(".cdk-overlay-backdrop")));
+            Reporter.log("Aviso gc-alert gestionado.");
+        } catch (TimeoutException e) {
+            Reporter.log("No apareció gc-alert.");
+        }
+    }
+
+    /**
+     * Gestiona el aviso de validación (gc-alert con id="continue-button") que
+     * puede aparecer al guardar si algún campo obligatorio está incorrecto.
+     */
+    protected void handleValidationAlert() {
+        try {
+            WebDriverWait shortWait = new WebDriverWait(driver, Duration.ofSeconds(3));
+            WebElement continuarBtn = shortWait.until(
+                    ExpectedConditions.elementToBeClickable(By.id("continue-button")));
+            continuarBtn.click();
+            wait.until(ExpectedConditions.invisibilityOfElementLocated(
+                    By.cssSelector(".cdk-overlay-backdrop")));
+            Reporter.log("Aviso de validación gestionado.");
+        } catch (TimeoutException e) {
+            Reporter.log("No apareció aviso de validación.");
+        }
+    }
+
+    /**
+     * Gestiona la pantalla de bloqueo por inactividad si aparece.
+     * IDs: "password" (input contraseña), "unlock-session-button" (botón Desbloquear).
+     * Llamar antes de cualquier acción cuando el test puede haber tardado mucho.
+     *
+     * @param password  Contraseña del usuario activo
+     */
+    protected void handleSessionLock(String password) {
+        try {
+            WebDriverWait shortWait = new WebDriverWait(driver, Duration.ofSeconds(3));
+            WebElement passField = shortWait.until(
+                    ExpectedConditions.presenceOfElementLocated(By.id("unlock-session-button")));
+            driver.findElement(By.id("password")).sendKeys(password);
+            driver.findElement(By.id("unlock-session-button")).click();
+            wait.until(ExpectedConditions.invisibilityOfElementLocated(
+                    By.id("unlock-session-button")));
+            Reporter.log("Sesión desbloqueada.");
+        } catch (TimeoutException e) {
+            // No hay pantalla de bloqueo — continuar
+        }
+    }
+
+    /**
+     * Abre el menú de Acciones (id="actions-button") y hace click en el ítem
+     * indicado via JavascriptExecutor.
+     *
+     * El click directo falla con "element click intercepted" porque el
+     * cdk-overlay-pane de Angular Material se posiciona sobre el ítem mientras
+     * el menú se anima. JS bypasea el overlay.
+     *
+     * @param localWait  WebDriverWait a usar
+     * @param menuItemId ID del ítem de menú (ej. "new_registry", "add", "edit")
+     */
+    protected void openActionsMenuAndClick(WebDriverWait localWait, String menuItemId) {
+        localWait.until(ExpectedConditions.elementToBeClickable(
+                By.id("actions-button"))).click();
+
+        WebElement menuItem = localWait.until(
+                ExpectedConditions.visibilityOfElementLocated(By.id(menuItemId)));
+
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", menuItem);
+    }
+
+    /**
+     * Abre un mat-select por su ID y selecciona la opción indicada via JS.
+     *
+     * Las opciones de Angular Material mat-select pueden tener el problema del
+     * cdk-overlay, por lo que se usa JS click en la opción.
+     *
+     * @param localWait WebDriverWait a usar
+     * @param selectId  ID del mat-select a abrir
+     * @param optionId  ID de la opción (patrón habitual: {selectId}-{índice})
+     */
+    protected void selectOption(WebDriverWait localWait, String selectId, String optionId) {
+        localWait.until(ExpectedConditions.elementToBeClickable(
+                By.id(selectId))).click();
+
+        // Se usa presenceOfElementLocated en vez de visibilityOfElementLocated porque
+        // cuando el select está dentro de un modal (mat-dialog-container), el backdrop
+        // del modal puede hacer que Selenium considere la opción como "no visible"
+        // aunque esté renderizada y clickable. JS click bypasea esa restricción.
+        WebElement option = localWait.until(
+                ExpectedConditions.presenceOfElementLocated(By.id(optionId)));
+
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", option);
     }
 }
