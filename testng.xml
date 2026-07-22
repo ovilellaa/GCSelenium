@@ -18,6 +18,7 @@
             <!-- <class name="tests.AllergiesAlertsTest"/> -->
             <!-- <class name="tests.AntecedentsTest"/> -->
             <!-- <class name="tests.BenefitsTest"/> -->
+            <!-- <class name="tests.DeviceRegistrationTest"/> -->
 
         </classes>
     </test>
