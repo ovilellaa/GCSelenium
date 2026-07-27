@@ -44,6 +44,15 @@ public class EmergencyWLTest extends ClassBaseTest {
             WebElement seleccionarPaciente = driver.findElement(By.id("patient-0"));
             seleccionarPaciente.click();
 
+            // comprobamos si se abre pantalla aviso LOPD
+            try {
+                WebElement acceptPatienLOPD = wait.until(ExpectedConditions.presenceOfElementLocated(By.id("continue-button")));
+                if (acceptPatienLOPD.isDisplayed())
+                    acceptPatienLOPD.click();
+            } catch (TimeoutException e) {
+
+            }
+
             // comprobamos si se abre la pantalla de ficha paciente por si el centro lo tiene configurado así
             try {
                 // Puedes ajustar el tiempo de espera si usas WebDriverWait
@@ -51,7 +60,10 @@ public class EmergencyWLTest extends ClassBaseTest {
                 if (cancelPatienFileButton.isDisplayed())
                     cancelPatienFileButton.click();
             } catch (TimeoutException e) {
+
+
             }
+
 
             WaitAMomentPlease();
 
@@ -362,11 +374,11 @@ public class EmergencyWLTest extends ClassBaseTest {
                 } else if (isContentEditable) { // Caso editor Angular con contenteditable
                     clearAndType(field, "Texto editable " + counter, isContentEditable);
                 } else { // Caso desplegable (mat-select)
-                    field.click();
+                    ((JavascriptExecutor) driver).executeScript("arguments[0].click();", field);
                     By panel = By.cssSelector("div.mat-select-panel");
                     wait.until(ExpectedConditions.visibilityOfElementLocated(panel));
                     WebElement primeraOpcion = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("div.mat-select-panel mat-option:first-child")));
-                    primeraOpcion.click();
+                    ((JavascriptExecutor) driver).executeScript("arguments[0].click();", primeraOpcion);
                     wait.until(ExpectedConditions.invisibilityOfElementLocated(panel));
                 }
                 counter++;
@@ -379,7 +391,7 @@ public class EmergencyWLTest extends ClassBaseTest {
         } else {
             Reporter.log("⚠ La anamnesis está en modo lectura.");
         }
-        // CloseMPTab();
+        //CloseMPTab();
     }
 
     @Test(priority = 12, dependsOnMethods = {"EnterEmergencyWL", "CreateEmergencySheet", "CreateEmergencyAnamnesis"})

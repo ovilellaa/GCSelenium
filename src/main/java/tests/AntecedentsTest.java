@@ -566,7 +566,7 @@ public class AntecedentsTest extends ClassBaseTest {
      * El mat-icon tiene clase "fg-times reset" y se activa con JS click.
      */
     private void clickHabitDeleteIcon(WebDriverWait w, String iconId) {
-        WebElement icon = w.until(ExpectedConditions.presenceOfElementLocated(By.id(iconId)));
+        WebElement icon = w.until(ExpectedConditions.elementToBeClickable(By.id(iconId)));
         ((JavascriptExecutor) driver).executeScript("arguments[0].click();", icon);
         try { Thread.sleep(500); } catch (InterruptedException ignored) {}
     }

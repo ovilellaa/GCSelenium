@@ -11,14 +11,22 @@
         <classes>
             <!--      <class name="tests.UrlTest"/> -->
            <!--      <class name="tests.LoginTest"/> -->
-            <!--    <class name="tests.ModulesMNPTest"/> -->
-                   <!--  <class name="tests.ModulesMPTest"/> -->
-              <class name="tests.EmergencyWLTest"/>
-            <!-- <class name="tests.SurgeryWLTest"/> -->
+            <!--          <class name="tests.ModulesMNPTest"/> -->
+                  <class name="tests.ModulesMPTest"/>
+            <!--        <class name="tests.EmergencyWLTest"/>  -->
+                <!-- <class name="tests.SurgeryWLTest"/> -->
             <!-- <class name="tests.AllergiesAlertsTest"/> -->
-            <!-- <class name="tests.AntecedentsTest"/> -->
-            <!-- <class name="tests.BenefitsTest"/> -->
-            <!-- <class name="tests.DeviceRegistrationTest"/> -->
+            <!-- <class name="tests.DiagnosticsTest"/> -->
+            <!-- <class name="tests.DietsAndRecommendationsTest"/> -->
+            <!-- <class name="tests.BloodProductsTest"/> -->
+            <!-- <class name="tests.ConsumptionAllocationsTest"/> -->
+            <!-- <class name="tests.BalanceRegistryTest"/> -->
+            <!-- <class name="tests.AddMedicationTest"/> -->
+            <!-- <class name="tests.InterventionsTest"/> -->
+            <!-- <class name="tests.NursingAssessmentTest"/> -->
+            <!-- <class name="tests.NursingInterventionTest"/> -->
+            <!-- <class name="tests.PharmacyValidationTest"/> -->
+            <!-- <class name="tests.PropuestaIntervencionTest"/> -->
 
         </classes>
     </test>
