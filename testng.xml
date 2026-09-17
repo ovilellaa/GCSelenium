@@ -27,6 +27,9 @@
             <!-- <class name="tests.NursingInterventionTest"/> -->
             <!-- <class name="tests.PharmacyValidationTest"/> -->
             <!-- <class name="tests.PropuestaIntervencionTest"/> -->
+            <!-- <class name="tests.ScaleRecordTest"/> -->
+            <!-- <class name="tests.VitalSignsRecordTest"/> -->
+            <!-- <class name="tests.WoundsRecordTest"/> -->
 
         </classes>
     </test>
