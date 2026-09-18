@@ -30,6 +30,13 @@
             <!-- <class name="tests.ScaleRecordTest"/> -->
             <!-- <class name="tests.VitalSignsRecordTest"/> -->
             <!-- <class name="tests.WoundsRecordTest"/> -->
+            <!-- <class name="tests.DietsTest"/> -->
+            <!-- <class name="tests.CuidadosTest"/> -->
+            <!-- <class name="tests.EvolucionTest"/> -->
+            <!-- <class name="tests.OxigenoterapiaTest"/> -->
+            <!-- <class name="tests.AnathomyTest"/> -->
+            <!-- <class name="tests.RadiologyTest"/> -->
+            <!-- <class name="tests.RegistroImplantesTest"/> -->
 
         </classes>
     </test>
