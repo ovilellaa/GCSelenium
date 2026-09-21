@@ -89,7 +89,7 @@ public class RegistroImplantesTest extends ClassBaseTest {
         boolean filaSeleccionada = Boolean.TRUE.equals(js().executeScript(
                 "var filas=Array.from(document.querySelectorAll('tr[id^=\"gridId\"],mat-row[id^=\"gridId\"]'));" +
                         "filas=filas.filter(f=>f.offsetParent!==null);" +
-                        "var fila=filas.find(f=>f.innerHTML.includes('" + nh + "')||f.textContent.includes('Lucas')||f.textContent.includes('Perez'));" +
+                        "var fila=filas.find(f=>f.innerHTML.includes('" + nh + "'));" +
                         "if(fila){fila.scrollIntoView({block:'center'});fila.click();return true;}" +
                         "if(filas.length>0){filas[0].scrollIntoView({block:'center'});filas[0].click();return true;}" +
                         "return false;"));

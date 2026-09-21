@@ -55,10 +55,11 @@ public class CuidadosTest extends ClassBaseTest {
 
     @Test(priority = 10, dependsOnMethods = "loginMedico")
     public void buscarYAbrirHistorial() {
-        // TODO: "Carlos Perez" hardcodeado — ver nota en DietsTest.buscarYAbrirHistorial.
+        // Paciente leído de ConfigReader ("pacqah1NH"), igual que en el resto
+        // del proyecto — ver nota en DietsTest.buscarYAbrirHistorial.
         wait.until(ExpectedConditions.elementToBeClickable(By.id("search-action"))).click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("spotlight-search")))
-                .sendKeys("Carlos Perez");
+                .sendKeys(ConfigReader.get("pacqah1NH"));
 
         wait.until(ExpectedConditions.elementToBeClickable(By.id("spotlight-list-item-0-0"))).click();
 

@@ -44,18 +44,23 @@ public class DietsTest extends ClassBaseTest {
 
     @Test(priority = 10, dependsOnMethods = "loginMedico")
     public void buscarYAbrirHistorial() {
-        // TODO: "Carlos Perez" está hardcodeado. Los tests de DonovanSaucedo
-        // leen el paciente desde ConfigReader (p.ej. "pacqah1NH"); aquí se usa
-        // el buscador global (spotlight) por nombre, así que no es directamente
-        // intercambiable sin verificar que el paciente de configuración
-        // aparece con ese nombre en este buscador.
+        // Paciente leído de ConfigReader ("pacqah1NH"), igual que en el resto
+        // del proyecto, en vez del nombre hardcodeado del original.
+        String nh = ConfigReader.get("pacqah1NH");
         wait.until(ExpectedConditions.elementToBeClickable(By.id("search-action"))).click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("spotlight-search")))
-                .sendKeys("Carlos Perez");
+                .sendKeys(nh);
 
         wait.until(ExpectedConditions.elementToBeClickable(By.id("spotlight-list-item-0-0"))).click();
 
         wait.until(ExpectedConditions.elementToBeClickable(By.id("quickAction-PATIENT_SEE_HISTORY"))).click();
+
+        // Modal de motivo de acceso a historia ajena (paciente no asignado al
+        // usuario en sesión) — heredado de ClassBaseTest, mismo que usan todos
+        // los tests de DonovanSaucedo. El original de CarlosFreire no lo
+        // gestionaba porque probó con un paciente ya asignado a él; con el
+        // paciente estándar de configuración (pacqah1NH) sí aparece.
+        SelectAccessReason("Guardia");
 
         try {
             wait.until(ExpectedConditions.elementToBeClickable(
@@ -83,31 +88,23 @@ public class DietsTest extends ClassBaseTest {
 
     @Test(priority = 20, dependsOnMethods = "buscarYAbrirHistorial")
     public void navegarADietas() {
-        // TODO: navegación por texto visible ("Tratamientos" / "Dietas") — el resto
-        // del proyecto navega por IDs de sidebar estables (p.ej. "*-sidebar").
-        // Sustituir cuando se identifique el ID real de este módulo.
-        WaitAMomentPlease(1.5f);
+        // Verificado contra QA (2026-09-18): el sidebar expone el ID real
+        // "treatments-sidebar" para "Tratamientos". El submenú "Dietas" que
+        // aparece tras expandirlo (distinto del módulo de nivel superior
+        // "Dietas y recomendaciones", id
+        // diets_and_recommendations-sidebar) no tiene ID propio confirmado,
+        // así que se sigue localizando por texto exacto.
+        wait.until(ExpectedConditions.elementToBeClickable(By.id("treatments-sidebar"))).click();
+        Reporter.log("Click en Tratamientos");
 
-        Boolean tratamientosClickado = (Boolean) js().executeScript(
-                "var all = Array.from(document.querySelectorAll('a, button, mat-list-item, [role=\"tab\"], span, li'));" +
-                        "var target = all.find(el => {" +
-                        "  var txt = el.textContent.trim().toLowerCase();" +
-                        "  return txt === 'tratamientos' && el.offsetParent !== null;" +
-                        "});" +
-                        "if (target) { target.click(); return true; } return false;"
-        );
-        if (Boolean.TRUE.equals(tratamientosClickado)) Reporter.log("Click en Tratamientos");
-
-        WaitAMomentPlease(1.0f);
-
-        Boolean dietasClickado = (Boolean) js().executeScript(
+        Boolean dietasClickado = wait.until(d -> (Boolean) js().executeScript(
                 "var all = Array.from(document.querySelectorAll('a, button, mat-list-item, [role=\"tab\"], span, li'));" +
                         "var target = all.find(el => {" +
                         "  var txt = el.textContent.trim().toLowerCase();" +
                         "  return txt === 'dietas' && el.offsetParent !== null;" +
                         "});" +
                         "if (target) { target.click(); return true; } return false;"
-        );
+        ));
         if (Boolean.TRUE.equals(dietasClickado)) Reporter.log("Click en Dietas");
 
         WaitAMomentPlease(2.0f);

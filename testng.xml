@@ -12,7 +12,7 @@
             <!--      <class name="tests.UrlTest"/> -->
            <!--      <class name="tests.LoginTest"/> -->
             <!--          <class name="tests.ModulesMNPTest"/> -->
-                  <class name="tests.ModulesMPTest"/>
+            <!--    <class name="tests.ModulesMPTest"/> -->
             <!--        <class name="tests.EmergencyWLTest"/>  -->
                 <!-- <class name="tests.SurgeryWLTest"/> -->
             <!-- <class name="tests.AllergiesAlertsTest"/> -->
@@ -30,7 +30,7 @@
             <!-- <class name="tests.ScaleRecordTest"/> -->
             <!-- <class name="tests.VitalSignsRecordTest"/> -->
             <!-- <class name="tests.WoundsRecordTest"/> -->
-            <!-- <class name="tests.DietsTest"/> -->
+                  <class name="tests.DietsTest"/>
             <!-- <class name="tests.CuidadosTest"/> -->
             <!-- <class name="tests.EvolucionTest"/> -->
             <!-- <class name="tests.OxigenoterapiaTest"/> -->

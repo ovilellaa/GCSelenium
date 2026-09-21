@@ -67,7 +67,7 @@ public abstract class ClassBaseTest {
 
     // metodos auxiliares
     public void setUpEnvironment() {
-        String env = System.getProperty("env", "qaazure");
+        String env = System.getProperty("env", "qa");
         System.out.println("Entorno seleccionado: " + env);
 
         ConfigReader.load(env);

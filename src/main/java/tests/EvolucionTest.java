@@ -32,7 +32,6 @@ import java.util.List;
  */
 public class EvolucionTest extends ClassBaseTest {
 
-    private String patientName = "Carlos Perez";
     private String lastEvolucionId;
 
     // ══════════════════════════════════════════════════════════════════
@@ -60,9 +59,10 @@ public class EvolucionTest extends ClassBaseTest {
         WaitAMomentPlease(2f);
         Reporter.log("En Lista de trabajo");
 
-        BuscarPacienteEnFiltro(patientName);
+        String patientNH = ConfigReader.get("pacqah1NH");
+        BuscarPacienteEnFiltro(patientNH);
         WaitAMomentPlease(1f);
-        Reporter.log("Paciente buscado: " + patientName);
+        Reporter.log("Paciente buscado: " + patientNH);
     }
 
     @Test(priority = 20, dependsOnMethods = "navegarUrgenciasYBuscarPaciente",
@@ -534,10 +534,10 @@ public class EvolucionTest extends ClassBaseTest {
      * Busca un paciente en el campo "Escribe para filtrar sobre la lista"
      * Usa JavaScript para compatibilidad total con Angular Material
      *
-     * TODO: "Carlos Perez" hardcodeado — ver nota en DietsTest.buscarYAbrirHistorial.
+     * @param nh Número de historia leído de ConfigReader ("pacqah1NH")
      */
-    private void BuscarPacienteEnFiltro(String nombrePaciente) {
-        Reporter.log("Buscando paciente: " + nombrePaciente);
+    private void BuscarPacienteEnFiltro(String nh) {
+        Reporter.log("Buscando paciente: " + nh);
 
         wait.until(d -> {
             Boolean ok = (Boolean) js().executeScript(
@@ -568,9 +568,9 @@ public class EvolucionTest extends ClassBaseTest {
 
         campoFiltro.click();
         campoFiltro.clear();
-        campoFiltro.sendKeys(nombrePaciente);
+        campoFiltro.sendKeys(nh);
         WaitAMomentPlease(1.5f);
-        Reporter.log("Nombre escrito en filtro: " + nombrePaciente);
+        Reporter.log("NH escrito en filtro: " + nh);
 
         wait.until(d -> {
             Long count = (Long) js().executeScript(
@@ -588,7 +588,7 @@ public class EvolucionTest extends ClassBaseTest {
         if (!Boolean.TRUE.equals(clicked)) throw new RuntimeException("No se pudo clickear la fila del paciente");
 
         WaitAMomentPlease(0.8f);
-        Reporter.log("Paciente seleccionado: " + nombrePaciente);
+        Reporter.log("Paciente seleccionado: " + nh);
     }
 
     private void clickElementoTexto(String... textos) {
