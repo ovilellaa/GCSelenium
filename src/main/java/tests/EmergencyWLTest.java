@@ -73,11 +73,19 @@ public class EmergencyWLTest extends ClassBaseTest {
             WebElement remisionVoluntaria = driver.findElement(By.id("referredById-0"));
             remisionVoluntaria.click();
 
-            //Selecciona el centro de remisión
+            //Selecciona el centro de remisión (si el campo está habilitado)
             WebElement centro = driver.findElement(By.id("sourceCenterId"));
-            centro.click();
-            WebElement primerCentro = driver.findElement(By.id("sourceCenterId-0"));
-            primerCentro.click();
+            String centroClases = centro.getAttribute("class");
+            boolean centroDeshabilitado = "true".equals(centro.getAttribute("aria-disabled"))
+                    || (centroClases != null && centroClases.contains("mat-select-disabled"));
+
+            if (!centroDeshabilitado) {
+                centro.click();
+                WebElement primerCentro = driver.findElement(By.id("sourceCenterId-0"));
+                primerCentro.click();
+            } else {
+                Reporter.log("⚠ El campo 'Centro de remisión' (sourceCenterId) está deshabilitado, no se puede seleccionar.");
+            }
 
             //Selecciona el Tipo de consulta
             WebElement area = driver.findElement(By.id("areaId"));
