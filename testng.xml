@@ -37,6 +37,8 @@
             <!-- <class name="tests.AnathomyTest"/> -->
             <!-- <class name="tests.RadiologyTest"/> -->
             <!-- <class name="tests.RegistroImplantesTest"/> -->
+            <!-- <class name="tests.HospitalizationWLTest"/> -->
+            <!-- <class name="tests.LaboratoryTest"/> -->
 
         </classes>
     </test>

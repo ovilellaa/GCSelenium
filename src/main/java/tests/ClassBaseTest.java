@@ -275,6 +275,23 @@ public abstract class ClassBaseTest {
         botonCrear.click();
     }
 
+    /**
+     * Vuelve al menú principal pulsando repetidamente cualquier botón "volver"
+     * (id termina en "-back-button") hasta que no quede ninguno. Necesario para
+     * navegar entre módulos distintos (Urgencias, Hospitalización, Admisión)
+     * dentro del mismo test.
+     */
+    public void goToMainMenu() {
+        while (true) {
+            List<WebElement> backButtons = driver.findElements(By.cssSelector("[id$='-back-button']"));
+            if (backButtons.isEmpty()) {
+                break;
+            }
+            backButtons.get(0).click();
+            WaitAMomentPlease();
+        }
+    }
+
     // ─────────────────────────────────────────────────────────────────────────
     // MÉTODOS COMUNES DE GESTIÓN DE MODALES
     // Presentes en todos los tests que abren el historial clínico de un paciente.
