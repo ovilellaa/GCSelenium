@@ -16,6 +16,10 @@ arbol.txt
 # Excluir configuraciones locales de pruebas
 src/main/tests/resources/
 
+# Credenciales locales — ver Configuration/secrets.*.properties.example
+Configuration/secrets.*.properties
+!Configuration/secrets.*.properties.example
+
 # Maven Wrapper
 !.mvn/wrapper/maven-wrapper.jar
 
