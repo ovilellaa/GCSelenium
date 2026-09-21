@@ -1,5 +1,6 @@
 package tests;
 
+import DB.SqlScriptRunner;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -30,6 +31,10 @@ public abstract class ClassBaseTest {
     public void setUpSuite() {
         setUpEnvironment();
 
+        // Deja la BBDD en el estado que necesitan los tests antes de arrancar,
+        // por si algo externo a la suite ha modificado el paciente/dato de pruebas.
+        SqlScriptRunner.runBeforeSuiteScripts();
+
         // configurar driver chrome
         String driverPath = Paths.get("drivers", "chromedriver.exe").toAbsolutePath().toString();
     //    System.setProperty("webdriver.chrome.driver", driverPath);
@@ -53,6 +58,10 @@ public abstract class ClassBaseTest {
 
     @AfterSuite
     public void tearDownSuite() {
+        // Se ejecuta siempre, incluso si algún test ha fallado, para dejar la
+        // BBDD en su estado inicial de cara a la siguiente ejecución.
+        SqlScriptRunner.runAfterSuiteScripts();
+
         if (driver != null && !suiteHasFailed) {
             driver.quit();
         }

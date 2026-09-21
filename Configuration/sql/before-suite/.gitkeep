@@ -1,0 +1,3 @@
+Carpeta para scripts .sql que se ejecutan automáticamente, en orden alfabético,
+antes de arrancar la suite (ver ClassBaseTest.setUpSuite() / SqlScriptRunner.runBeforeSuiteScripts()).
+Este fichero solo existe para que la carpeta se mantenga en git mientras está vacía; bórralo cuando añadas el primer script.
