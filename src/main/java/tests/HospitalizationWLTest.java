@@ -180,9 +180,14 @@ public class HospitalizationWLTest extends ClassBaseTest {
             ((JavascriptExecutor) driver).executeScript("arguments[0].click();", asignarMedico);
             WebElement filtrarMedico = driver.findElement(By.id("user-autocomplete-default-id"));
             String surnameDoctor = ConfigReader.get("surname_doctor");
+            // El input puede venir precargado con un usuario por defecto; sin clear()
+            // sendKeys() se concatena a ese texto en vez de sustituirlo.
+            filtrarMedico.clear();
             filtrarMedico.sendKeys(surnameDoctor);
-            WebElement seleccionarMedico = driver.findElement(By.id("user-autocomplete-default-id-0"));
+            WebElement seleccionarMedico = wait.until(ExpectedConditions.elementToBeClickable(By.id("user-autocomplete-default-id-0")));
             seleccionarMedico.click();
+            wait.until(d -> d.findElements(By.cssSelector(".mat-autocomplete-panel"))
+                    .stream().noneMatch(WebElement::isDisplayed));
             WebElement aceptarAsignacion = driver.findElement(By.id("accept-SearchDoctorNurseDialogComponent-button"));
             aceptarAsignacion.click();
         }

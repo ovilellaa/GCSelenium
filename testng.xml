@@ -30,7 +30,8 @@
             <!-- <class name="tests.ScaleRecordTest"/> -->
             <!-- <class name="tests.VitalSignsRecordTest"/> -->
             <!-- <class name="tests.WoundsRecordTest"/> -->
-                  <class name="tests.DietsTest"/>
+            <!--    <class name="tests.DietsTest"/> -->
+            <class name="tests.EmergencyWLTest"/>
             <!-- <class name="tests.CuidadosTest"/> -->
             <!-- <class name="tests.EvolucionTest"/> -->
             <!-- <class name="tests.OxigenoterapiaTest"/> -->

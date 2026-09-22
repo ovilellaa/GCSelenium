@@ -207,9 +207,14 @@ public class EmergencyWLTest extends ClassBaseTest {
             ((JavascriptExecutor) driver).executeScript("arguments[0].click();", asignarMedico);
             WebElement filtrarMedico = driver.findElement(By.id("user-autocomplete-default-id"));
             String surnameDoctor = ConfigReader.get("surname_doctor");
+            // El input puede venir precargado con un usuario por defecto; sin clear()
+            // sendKeys() se concatena a ese texto en vez de sustituirlo.
+            filtrarMedico.clear();
             filtrarMedico.sendKeys(surnameDoctor);
-            WebElement seleccionarMedico = driver.findElement(By.id("user-autocomplete-default-id-0"));
+            WebElement seleccionarMedico = wait.until(ExpectedConditions.elementToBeClickable(By.id("user-autocomplete-default-id-0")));
             seleccionarMedico.click();
+            wait.until(d -> d.findElements(By.cssSelector(".mat-autocomplete-panel"))
+                    .stream().noneMatch(WebElement::isDisplayed));
             WebElement aceptarAsignacion = driver.findElement(By.id("accept-SearchDoctorNurseDialogComponent-button"));
             aceptarAsignacion.click();
 
@@ -230,9 +235,12 @@ public class EmergencyWLTest extends ClassBaseTest {
                 asignarEnfermeria.click();
                 WebElement filtrarMedico = driver.findElement(By.id("user-autocomplete-default-id"));
                 String surnameNurse = ConfigReader.get("surname_nurse");
+                filtrarMedico.clear();
                 filtrarMedico.sendKeys(surnameNurse);
-                WebElement seleccionarEnfermera = driver.findElement(By.id("user-autocomplete-default-id-0"));
+                WebElement seleccionarEnfermera = wait.until(ExpectedConditions.elementToBeClickable(By.id("user-autocomplete-default-id-0")));
                 seleccionarEnfermera.click();
+                wait.until(d -> d.findElements(By.cssSelector(".mat-autocomplete-panel"))
+                        .stream().noneMatch(WebElement::isDisplayed));
                 WebElement aceptarAsignacion = driver.findElement(By.id("accept-SearchDoctorNurseDialogComponent-button"));
                 aceptarAsignacion.click();
             } else {
@@ -607,11 +615,7 @@ public class EmergencyWLTest extends ClassBaseTest {
 
 
     public void TakeOffServerFilters() {
-        List<WebElement> backdrops = driver.findElements(By.cssSelector(".cdk-overlay-backdrop-showing"));
-        if (!backdrops.isEmpty()) {
-            new Actions(driver).sendKeys(Keys.ESCAPE).perform();
-            wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector(".cdk-overlay-backdrop-showing")));
-        }
+        dismissOverlayBackdrop();
 
         WebElement filtroWL = wait.until(ExpectedConditions.presenceOfElementLocated(By.id("filters-button-emergencyGridId")));
         ((JavascriptExecutor) driver).executeScript("arguments[0].click();", filtroWL);
@@ -621,18 +625,42 @@ public class EmergencyWLTest extends ClassBaseTest {
     }
 
     private void OpenActionMenu() {
-        List<WebElement> backdrops = driver.findElements(By.cssSelector(".cdk-overlay-backdrop-showing"));
-        if (!backdrops.isEmpty()) {
-            new Actions(driver).sendKeys(Keys.ESCAPE).perform();
-            wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector(".cdk-overlay-backdrop-showing")));
-        }
+        dismissOverlayBackdrop();
         WebElement accionesUrgencias = wait.until(ExpectedConditions.presenceOfElementLocated(By.id("actions-button-emergencyGridId")));
         ((JavascriptExecutor) driver).executeScript("arguments[0].click();", accionesUrgencias);
         WaitAMomentPlease();
     }
 
     public void CloseActionMenu() {
+        dismissOverlayBackdrop();
+    }
+
+    /**
+     * Cierra cualquier overlay/backdrop de Angular Material que haya quedado
+     * abierto de una acción anterior (menú de acciones, drawer...). ESCAPE
+     * cierra la mayoría de overlays del cdk, pero el backdrop del
+     * mat-drawer no siempre responde a ESCAPE y se queda encima de la
+     * página bloqueando los siguientes clicks — si tras ESCAPE sigue
+     * presente, se fuerza con click por JS antes de continuar.
+     */
+    private void dismissOverlayBackdrop() {
+        List<WebElement> backdrops = driver.findElements(By.cssSelector(".cdk-overlay-backdrop-showing"));
+        if (backdrops.isEmpty()) {
+            return;
+        }
+
         new Actions(driver).sendKeys(Keys.ESCAPE).perform();
+        try {
+            wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector(".cdk-overlay-backdrop-showing")));
+            return;
+        } catch (TimeoutException e) {
+            // ESCAPE no lo cerró (p.ej. mat-drawer-backdrop) — forzar con JS.
+        }
+
+        ((JavascriptExecutor) driver).executeScript(
+                "document.querySelectorAll('.cdk-overlay-backdrop-showing, .mat-drawer-backdrop')" +
+                        ".forEach(function(b) { b.click(); });"
+        );
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector(".cdk-overlay-backdrop-showing")));
     }
 

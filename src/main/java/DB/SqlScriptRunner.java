@@ -39,6 +39,11 @@ import java.util.regex.Pattern;
  * comillas (p.ej. WHERE HISTORYNUMBER = '@NHC'), ver check_patient_exists.sql
  * como ejemplo; en una columna numérica se deja sin comillas y el escapado
  * no afecta, porque un valor numérico nunca contiene comillas.
+ *
+ * Si no se pasan parámetros (Map vacío, como en before-suite/after-suite), el
+ * script se ejecuta tal cual, sin tocar ningún "@algo" — así un script
+ * autocontenido con sus propias variables de T-SQL (DECLARE @customerid = ...)
+ * funciona sin necesidad de adaptarlo al mecanismo de sustitución.
  */
 public final class SqlScriptRunner {
 
@@ -150,14 +155,21 @@ public final class SqlScriptRunner {
             throw new RuntimeException("Error leyendo el script SQL: " + file.getPath(), e);
         }
 
+        if (params.isEmpty()) {
+            // Nada que sustituir: el script puede ser autocontenido (con sus
+            // propios DECLARE @variable de T-SQL) y no debe tocarse.
+            return sql;
+        }
+
         StringBuilder result = new StringBuilder();
         Matcher matcher = PARAM_PATTERN.matcher(sql);
         int lastEnd = 0;
         while (matcher.find()) {
             String paramName = matcher.group(1);
             if (!params.containsKey(paramName)) {
-                throw new RuntimeException("El script " + file.getName()
-                        + " necesita el parámetro @" + paramName + " y no se ha proporcionado.");
+                // No es necesariamente un marcador nuestro: puede ser una variable
+                // nativa de T-SQL (DECLARE @algo) del propio script. Se deja tal cual.
+                continue;
             }
             result.append(sql, lastEnd, matcher.start());
             // Se escapan las comillas simples por si el marcador va dentro de un

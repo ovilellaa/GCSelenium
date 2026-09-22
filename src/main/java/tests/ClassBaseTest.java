@@ -11,12 +11,14 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
 
+import java.io.Console;
 import java.nio.file.Paths;
 import java.time.Duration;
 import java.util.Objects;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public abstract class ClassBaseTest {
@@ -34,6 +36,7 @@ public abstract class ClassBaseTest {
         // Deja la BBDD en el estado que necesitan los tests antes de arrancar,
         // por si algo externo a la suite ha modificado el paciente/dato de pruebas.
         SqlScriptRunner.runBeforeSuiteScripts();
+        resetTestPatientEpisode();
 
         // configurar driver chrome
         String driverPath = Paths.get("drivers", "chromedriver.exe").toAbsolutePath().toString();
@@ -60,11 +63,68 @@ public abstract class ClassBaseTest {
     public void tearDownSuite() {
         // Se ejecuta siempre, incluso si algún test ha fallado, para dejar la
         // BBDD en su estado inicial de cara a la siguiente ejecución.
+        resetTestPatientEpisode();
         SqlScriptRunner.runAfterSuiteScripts();
 
         if (driver != null && !suiteHasFailed) {
             driver.quit();
         }
+    }
+
+    /**
+     * Pregunta por consola el episodio (processid) del paciente de pruebas a
+     * borrar y, si se indica uno, borra todos sus datos. Se llama antes y
+     * después de la suite (ver setUpSuite()/tearDownSuite()): antes, por si
+     * quedó un episodio de una ejecución anterior; después, por si el propio
+     * test acaba de crear uno (p.ej. al crear una hoja de urgencias o un
+     * ingreso) y se quiere dejar la BBDD limpia para la siguiente vez.
+     *
+     * Dejar la respuesta en blanco (Intro) omite el borrado — importante
+     * porque hay tests que dependen de que ese episodio siga existiendo, o
+     * porque se está lanzando una prueba puntual sin querer tocar datos que
+     * usarán otras pruebas después.
+     *
+     * Si no hay consola interactiva (p.ej. el jar se lanza en un pipeline de
+     * CI sin terminal, como el de Azure DevOps configurado como remoto), no
+     * se pregunta nada y se omite el borrado directamente, para no bloquear
+     * la ejecución esperando una respuesta que nunca llegará.
+     */
+    private void resetTestPatientEpisode() {
+        Console console = System.console();
+        if (console == null) {
+            return;
+        }
+
+        String nh = ConfigReader.get("pacqah1NH");
+        List<Map<String, Object>> filas = SqlScriptRunner.query("get_customerid_by_nh.sql", Map.of("NHC", nh));
+        if (filas.isEmpty()) {
+            System.out.println("No se encontró el paciente NH=" + nh + "; se omite el borrado de episodio.");
+            return;
+        }
+        Map<String, Object> paciente = filas.get(0);
+        String customerId = textValue(paciente.get("CUSTOMERID"));
+        String nombreCompleto = (textValue(paciente.get("NAMECUSTOMER")) + " "
+                + textValue(paciente.get("FIRSTSURNAMECUSTOMER")) + " "
+                + textValue(paciente.get("SECONDSURNAMECUSTOMER"))).trim();
+
+        String episodio = console.readLine(
+                "Episodio (processid) del paciente de pruebas " + nombreCompleto
+                        + " con NH " + nh + " a borrar, o Intro para omitir: ");
+        if (episodio == null || episodio.isBlank()) {
+            return;
+        }
+        episodio = episodio.trim();
+
+        SqlScriptRunner.run("borrar_datos_paciente_prueba.sql", Map.of(
+                "customerid", customerId,
+                "processid", episodio
+        ));
+        System.out.println("Episodio " + episodio + " del paciente " + nombreCompleto + " (NH " + nh + ") borrado.");
+    }
+
+    /** Convierte a texto un valor de columna, tratando null como cadena vacía y recortando espacios (columnas CHAR de ancho fijo). */
+    private static String textValue(Object value) {
+        return value == null ? "" : value.toString().trim();
     }
 
     public void GotoToUrl() {
@@ -76,7 +136,7 @@ public abstract class ClassBaseTest {
 
     // metodos auxiliares
     public void setUpEnvironment() {
-        String env = System.getProperty("env", "qa");
+        String env = System.getProperty("env", "qaazure");
         System.out.println("Entorno seleccionado: " + env);
 
         ConfigReader.load(env);
